@@ -1,28 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PROMPTING / FIELD NOTES — Interactive AI Engineering Portal</title>
+  <title>Prompting / Field Notes — Masterclass</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    /* CSS VARIABLES FOR THEME SWITCHING */
     :root {
+      /* LIGHT THEME */
+      --bg-main: #f8fafc;
+      --bg-sidebar: #ffffff;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      --accent-main: #059669;
+      --accent-hover: #047857;
+      --accent-bg: #d1fae5;
+      --code-bg: #f1f5f9;
+      --code-text: #0f172a;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="dark"] {
+      /* DARK THEME */
       --bg-main: #07090e;
+      --bg-sidebar: rgba(10, 15, 26, 0.95);
       --bg-card: rgba(15, 23, 42, 0.65);
-      --bg-card-hover: rgba(30, 41, 59, 0.8);
-      --border-card: rgba(255, 255, 255, 0.08);
-      --border-accent: rgba(16, 185, 129, 0.3);
-      --accent-emerald: #10b981;
-      --accent-glow: rgba(16, 185, 129, 0.15);
-      --accent-cyan: #06b6d4;
-      --accent-violet: #8b5cf6;
-      --accent-amber: #f59e0b;
+      --border-color: rgba(255, 255, 255, 0.08);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --text-dim: #64748b;
+      --accent-main: #10b981;
+      --accent-hover: #34d399;
+      --accent-bg: rgba(16, 185, 129, 0.15);
       --code-bg: #030712;
+      --code-text: #a7f3d0;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 20px 40px -3px rgba(0, 0, 0, 0.5);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,161 +54,199 @@
       background-color: var(--bg-main);
       color: var(--text-main);
       line-height: 1.7;
-      padding-bottom: 8rem;
+      display: flex;
+      min-height: 100vh;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    body[data-theme="dark"] {
       background-image: 
-        radial-gradient(circle at 15% 10%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.07) 0%, transparent 45%),
-        radial-gradient(circle at 50% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+        radial-gradient(circle at 15% 10%, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.04) 0%, transparent 45%);
       background-attachment: fixed;
     }
 
-    /* READING PROGRESS BAR */
+    /* PROGRESS BAR */
     #progressBar {
       position: fixed;
       top: 0;
       left: 0;
       height: 3px;
-      background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan), var(--accent-violet));
+      background: var(--accent-main);
       width: 0%;
-      z-index: 2000;
+      z-index: 3000;
       transition: width 0.1s ease;
     }
 
-    /* HEADER & NAVIGATION */
-    header {
-      max-width: 1300px;
-      margin: 0 auto;
-      padding: 1.2rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* SIDEBAR NAVIGATION */
+    .sidebar {
+      width: 320px;
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      height: 100vh;
       position: sticky;
       top: 0;
-      background: rgba(7, 9, 14, 0.85);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border-card);
+      display: flex;
+      flex-direction: column;
       z-index: 1000;
+      backdrop-filter: blur(20px);
+      transition: all 0.3s ease;
     }
 
     .brand {
+      padding: 1.5rem 2rem;
       display: flex;
       align-items: center;
       gap: 0.85rem;
+      border-bottom: 1px solid var(--border-color);
       text-decoration: none;
-      color: var(--text-main);
     }
 
     .brand-icon {
-      width: 36px;
-      height: 36px;
-      background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
-      border-radius: 10px;
+      width: 32px;
+      height: 32px;
+      background: var(--accent-main);
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #000;
+      color: #fff;
       font-weight: 800;
       font-size: 1rem;
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.35);
     }
 
     .brand-text h1 {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 0.95rem;
       font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #fff;
-    }
-
-    .brand-text p {
-      font-size: 0.72rem;
-      color: var(--accent-emerald);
-      font-weight: 600;
       letter-spacing: 0.05em;
+      color: var(--text-main);
     }
 
-    .nav-chapters {
+    .nav-menu {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem 1.5rem;
       display: flex;
-      gap: 0.4rem;
-      overflow-x: auto;
-      padding: 0.3rem 0;
-    }
-
-    .chapter-tab {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-card);
-      color: var(--text-muted);
-      font-size: 0.82rem;
-      font-weight: 600;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 0.5rem;
     }
 
-    .chapter-tab:hover {
-      background: rgba(255, 255, 255, 0.07);
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.15);
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
     }
 
-    .chapter-tab.active {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.2));
-      border-color: var(--accent-emerald);
-      color: #fff;
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+    .nav-item:hover {
+      background: var(--bg-card);
+      border-color: var(--border-color);
+      color: var(--text-main);
     }
 
-    .tab-badge {
+    .nav-item.active {
+      background: var(--accent-bg);
+      color: var(--accent-main);
+      border-color: var(--accent-main);
+    }
+
+    .nav-badge {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       padding: 0.15rem 0.4rem;
       border-radius: 4px;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--accent-cyan);
+      background: var(--border-color);
+      color: var(--text-main);
     }
 
-    .chapter-tab.active .tab-badge {
-      background: var(--accent-emerald);
+    .nav-item.active .nav-badge {
+      background: var(--accent-main);
+      color: #fff;
+    }
+
+    /* SIDEBAR CONTROLS (THEME & STEALTH) */
+    .sidebar-controls {
+      padding: 1.5rem;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .control-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .control-btn:hover {
+      border-color: var(--text-muted);
+    }
+
+    .btn-stealth {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+    .btn-stealth:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    /* STEALTH OVERLAY */
+    #stealthOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #ffffff;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
       color: #000;
-      font-weight: 700;
     }
+    #stealthOverlay h1 { font-size: 2rem; font-weight: normal; color: #555; }
 
-    /* CONTAINER & VIEWS */
-    .container {
-      max-width: 1300px;
-      margin: 2.5rem auto 0 auto;
-      padding: 0 2rem;
+    /* MAIN CONTENT AREA */
+    .main-content {
+      flex: 1;
+      padding: 3rem 4rem 8rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
     }
 
     .chapter-view {
       display: none;
-      animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .chapter-view.active {
       display: block;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* HERO TWO-COLUMN GRID */
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 3.5rem;
-      align-items: start;
-      margin-bottom: 3.5rem;
-    }
-
+    /* TYPOGRAPHY & CARDS */
     .eyebrow {
       display: inline-flex;
       align-items: center;
@@ -195,11 +255,10 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      color: var(--accent-emerald);
-      background: rgba(16, 185, 129, 0.1);
+      color: var(--accent-main);
+      background: var(--accent-bg);
       padding: 0.35rem 0.8rem;
       border-radius: 9999px;
-      border: 1px solid rgba(16, 185, 129, 0.25);
       margin-bottom: 1.5rem;
     }
 
@@ -208,143 +267,50 @@
       font-size: 3.6rem;
       line-height: 1.1;
       font-weight: 700;
-      color: #fff;
+      color: var(--text-main);
       letter-spacing: -0.03em;
       margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, #ffffff 60%, var(--text-muted));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
     }
 
     p.hero-lead {
-      font-size: 1.18rem;
+      font-size: 1.15rem;
       color: var(--text-muted);
       line-height: 1.65;
       margin-bottom: 2rem;
-      max-width: 620px;
     }
 
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      flex-wrap: wrap;
-    }
-
-    .btn-action {
-      background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
-      color: #000;
-      font-weight: 700;
-      font-size: 0.92rem;
-      padding: 0.85rem 1.6rem;
-      border-radius: 12px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 25px rgba(16, 185, 129, 0.3);
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-action:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 30px rgba(16, 185, 129, 0.45);
-    }
-
-    .tagline-pills {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--text-dim);
-    }
-
-    /* EDITORIAL PREVIEW CARD */
-    .glass-preview-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(25px);
-      border: 1px solid var(--border-card);
-      border-radius: 24px;
-      padding: 2.2rem;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    .glass-preview-card::before {
-      content: '';
-      position: absolute;
-      top: -50px;
-      right: -50px;
-      width: 150px;
-      height: 150px;
-      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .card-label {
-      font-size: 0.74rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent-cyan);
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .card-quote-box {
-      background: rgba(255, 255, 255, 0.03);
-      border-left: 3px solid var(--accent-emerald);
-      border-radius: 0 12px 12px 0;
-      padding: 1.25rem 1.5rem;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.2rem;
-      color: #fff;
-      margin-bottom: 1.25rem;
-      line-height: 1.5;
-    }
-
-    /* READING CONTENT ARTICLE */
     .reading-content {
       background: var(--bg-card);
-      backdrop-filter: blur(25px);
-      border: 1px solid var(--border-card);
-      border-radius: 28px;
-      padding: 4.5rem;
-      max-width: 1040px;
-      margin: 0 auto;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 4rem;
+      box-shadow: var(--shadow-lg);
+      backdrop-filter: blur(10px);
+      margin-top: 3rem;
     }
 
     .reading-content h2 {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       font-weight: 700;
-      color: #fff;
+      color: var(--text-main);
       margin-bottom: 1.5rem;
-      letter-spacing: -0.02em;
     }
 
     .reading-content h3 {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.7rem;
+      font-size: 1.5rem;
       font-weight: 600;
-      color: #f1f5f9;
-      margin: 3.5rem 0 1.25rem 0;
-      border-top: 1px solid var(--border-card);
-      padding-top: 2.2rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
+      color: var(--text-main);
+      margin: 3rem 0 1.25rem 0;
+      border-top: 1px solid var(--border-color);
+      padding-top: 2rem;
     }
 
     .reading-content p {
-      font-size: 1.08rem;
+      font-size: 1.05rem;
       color: var(--text-muted);
       margin-bottom: 1.5rem;
-      line-height: 1.85;
     }
 
     .reading-content ul, .reading-content ol {
@@ -355,86 +321,74 @@
 
     .reading-content li {
       margin-bottom: 0.85rem;
-      line-height: 1.8;
-      font-size: 1.04rem;
+      font-size: 1.05rem;
     }
 
     .reading-content strong {
-      color: #fff;
+      color: var(--text-main);
     }
 
     .callout {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(6, 182, 212, 0.05));
-      border: 1px solid rgba(16, 185, 129, 0.25);
-      border-radius: 16px;
+      background: var(--accent-bg);
+      border-left: 4px solid var(--accent-main);
+      border-radius: 0 12px 12px 0;
       padding: 1.5rem 1.8rem;
       margin: 2rem 0;
-      position: relative;
     }
 
     .callout p {
       margin-bottom: 0;
-      font-size: 1.05rem;
-      color: #e2e8f0;
+      font-weight: 500;
+      color: var(--text-main);
     }
 
-    /* DATA TABLES */
+    /* TABLES & CODE */
     .content-table-wrapper {
       overflow-x: auto;
-      margin: 2.2rem 0;
-      border-radius: 16px;
-      border: 1px solid var(--border-card);
+      margin: 2rem 0;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
     }
 
     .content-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 0.95rem;
-      background: rgba(10, 15, 29, 0.7);
+      background: var(--bg-card);
     }
 
     .content-table th, .content-table td {
       padding: 1rem 1.25rem;
       text-align: left;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid var(--border-color);
     }
 
     .content-table th {
-      background: rgba(255, 255, 255, 0.04);
-      color: #fff;
+      background: var(--accent-bg);
+      color: var(--text-main);
       font-weight: 700;
-      font-family: 'Space Grotesk', sans-serif;
-      letter-spacing: 0.03em;
     }
 
-    .content-table tr:hover {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    /* CODE BOXES */
     .code-block {
       background-color: var(--code-bg);
-      color: #a7f3d0;
+      color: var(--code-text);
       font-family: 'JetBrains Mono', monospace;
       padding: 1.4rem 1.6rem;
-      border-radius: 14px;
+      border-radius: 12px;
       font-size: 0.88rem;
       overflow-x: auto;
       margin: 1.8rem 0;
-      line-height: 1.65;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--border-color);
     }
 
-    /* INTERACTIVE WIDGET PANEL */
+    /* INTERACTIVE WIDGETS */
     .interactive-panel {
-      background: linear-gradient(145deg, rgba(17, 24, 39, 0.9), rgba(10, 15, 26, 0.95));
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      border-radius: 20px;
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
       padding: 2.2rem;
       margin: 3rem 0;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4), 0 0 30px rgba(16, 185, 129, 0.08);
-      position: relative;
+      box-shadow: var(--shadow-md);
     }
 
     .panel-header {
@@ -443,28 +397,24 @@
       justify-content: space-between;
       margin-bottom: 1.5rem;
       padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border-card);
+      border-bottom: 1px solid var(--border-color);
     }
 
     .panel-header h4 {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1.15rem;
       font-weight: 700;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
+      color: var(--text-main);
     }
 
     .interactive-badge {
-      background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
-      color: #000;
+      background: var(--accent-main);
+      color: #fff;
       font-size: 0.72rem;
       font-weight: 800;
       padding: 0.25rem 0.6rem;
       border-radius: 6px;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
     }
 
     .tab-pills {
@@ -475,9 +425,9 @@
     }
 
     .pill-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-card);
-      border-radius: 10px;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
       padding: 0.55rem 1.1rem;
       font-size: 0.85rem;
       font-weight: 600;
@@ -487,73 +437,47 @@
     }
 
     .pill-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
+      background: var(--border-color);
+      color: var(--text-main);
     }
 
     .pill-btn.active {
-      background: var(--accent-emerald);
-      color: #000;
-      font-weight: 700;
-      border-color: var(--accent-emerald);
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.35);
+      background: var(--accent-main);
+      color: #fff;
+      border-color: var(--accent-main);
     }
 
     .output-screen {
       background: var(--code-bg);
-      color: #e2e8f0;
+      color: var(--code-text);
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.92rem;
       padding: 1.4rem;
       border-radius: 12px;
       min-height: 100px;
       line-height: 1.7;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      position: relative;
+      border: 1px solid var(--border-color);
       white-space: pre-wrap;
-    }
-
-    /* SLIDERS & CONTROLS */
-    .control-row {
-      margin-bottom: 1.6rem;
-    }
-
-    .control-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 0.6rem;
     }
 
     .slider-input {
       width: 100%;
       height: 8px;
       border-radius: 6px;
-      background: #1e293b;
+      background: var(--border-color);
       outline: none;
       -webkit-appearance: none;
-      cursor: pointer;
+      margin-bottom: 1rem;
     }
 
     .slider-input::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
-      background: var(--accent-emerald);
+      background: var(--accent-main);
       cursor: pointer;
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.8);
-      border: 2px solid #fff;
-    }
-
-    .token-display {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 1rem;
     }
 
     .token-chip {
@@ -562,87 +486,38 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.84rem;
       font-weight: 600;
-      background: rgba(16, 185, 129, 0.12);
-      color: var(--accent-emerald);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      animation: popIn 0.2s ease;
+      background: var(--accent-bg);
+      color: var(--accent-main);
+      border: 1px solid var(--border-color);
+      display: inline-block;
+      margin: 4px;
     }
 
-    @keyframes popIn {
-      from { transform: scale(0.8); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    /* QUIZ COMPONENT */
-    .quiz-card {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid var(--border-card);
-      border-radius: 14px;
-      padding: 1.6rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .quiz-question {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #fff;
-      margin-bottom: 1rem;
-    }
-
-    .quiz-options {
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-    }
-
-    .quiz-opt-btn {
-      text-align: left;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-card);
-      border-radius: 10px;
-      padding: 0.85rem 1.2rem;
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .quiz-opt-btn:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .quiz-feedback {
-      margin-top: 1rem;
-      padding: 0.9rem 1.3rem;
-      border-radius: 10px;
-      font-size: 0.92rem;
+    /* RESPONSIVE */
+    .mobile-menu-btn {
       display: none;
-      font-weight: 600;
-      line-height: 1.6;
-    }
-
-    .quiz-feedback.correct {
-      display: block;
-      background: rgba(16, 185, 129, 0.15);
-      color: #6ee7b7;
-      border: 1px solid rgba(16, 185, 129, 0.4);
-    }
-
-    .quiz-feedback.incorrect {
-      display: block;
-      background: rgba(239, 68, 68, 0.15);
-      color: #fca5a5;
-      border: 1px solid rgba(239, 68, 68, 0.4);
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.5rem;
+      cursor: pointer;
     }
 
     @media (max-width: 900px) {
-      .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      h1.hero-heading { font-size: 2.6rem; }
-      .reading-content { padding: 2.2rem 1.5rem; }
-      header { flex-direction: column; gap: 1rem; align-items: flex-start; }
+      body { flex-direction: column; }
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .nav-menu { display: none; }
+      .nav-menu.open { display: flex; }
+      .mobile-menu-btn { display: block; }
+      .main-content { padding: 2rem 1.5rem; }
+      h1.hero-heading { font-size: 2.4rem; }
+      .reading-content { padding: 2rem 1.5rem; }
     }
   </style>
 </head>
@@ -650,69 +525,69 @@
 
   <div id="progressBar"></div>
 
-  <!-- HEADER -->
-  <header>
-    <a href="#" class="brand">
+  <!-- PRIVACY OVERLAY (STEALTH MODE) -->
+  <div id="stealthOverlay">
+    <h1>Loading...</h1>
+  </div>
+
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="sidebar">
+    <div class="brand">
       <div class="brand-icon">⚡</div>
       <div class="brand-text">
-        <h1>PROMPTING / FIELD NOTES</h1>
-        <p>AUTONOMOUS ENGINEERING PORTAL</p>
+        <h1>FIELD NOTES</h1>
       </div>
-    </a>
-    <nav class="nav-chapters">
-      <button class="chapter-tab active" onclick="switchChapter('ch1', event)"><span class="tab-badge">01</span> Intro</button>
-      <button class="chapter-tab" onclick="switchChapter('ch2', event)"><span class="tab-badge">02</span> LLM Internals</button>
-      <button class="chapter-tab" onclick="switchChapter('ch3', event)"><span class="tab-badge">03</span> Chat & Tools</button>
-      <button class="chapter-tab" onclick="switchChapter('ch4', event)"><span class="tab-badge">04</span> App Architecture</button>
-      <button class="chapter-tab" onclick="switchChapter('ch5', event)"><span class="tab-badge">05</span> Context & RAG</button>
-      <button class="chapter-tab" onclick="switchChapter('ch6', event)"><span class="tab-badge">06</span> Lab Workbook</button>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+    </div>
+    
+    <nav class="nav-menu" id="navMenu">
+      <div class="nav-item active" onclick="switchChapter('ch1', event)">
+        <span class="nav-badge">01</span> Introduction
+      </div>
+      <div class="nav-item" onclick="switchChapter('ch2', event)">
+        <span class="nav-badge">02</span> LLM Internals
+      </div>
+      <div class="nav-item" onclick="switchChapter('ch3', event)">
+        <span class="nav-badge">03</span> Chat & Tools
+      </div>
+      <div class="nav-item" onclick="switchChapter('ch4', event)">
+        <span class="nav-badge">04</span> App Architecture
+      </div>
+      <div class="nav-item" onclick="switchChapter('ch5', event)">
+        <span class="nav-badge">05</span> Context & RAG
+      </div>
+      <div class="nav-item" onclick="switchChapter('ch6', event)">
+        <span class="nav-badge">06</span> Lab Workbook
+      </div>
     </nav>
-  </header>
 
-  <main class="container">
+    <div class="sidebar-controls">
+      <button class="control-btn" onclick="toggleTheme()">
+        <span id="themeIcon">☀️</span> Switch Theme
+      </button>
+      <button class="control-btn btn-stealth" onclick="toggleStealth()">
+        👁️ Stealth Mode (Esc)
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
 
     <!-- ==================== CHAPTER 01 ==================== -->
     <section id="ch1" class="chapter-view active">
-      <div class="hero-grid">
-        <div>
-          <span class="eyebrow">Chapter 01 · ~10 mins reading</span>
-          <h1 class="hero-heading">Introduction to prompt engineering.</h1>
-          <p class="hero-lead">A language model produces a continuation of the information it receives. Prompt engineering is the practice of making that continuation useful, relevant, and reliable.</p>
-          <div class="hero-actions">
-            <a href="#read-ch1" class="btn-action">Explore Deep Notes ↓</a>
-            <span class="tagline-pills">History · Attention · Transformers · Anatomy</span>
-          </div>
-        </div>
+      <span class="eyebrow">Chapter 01 · ~10 mins reading</span>
+      <h1 class="hero-heading">Introduction to prompt engineering.</h1>
+      <p class="hero-lead">A language model produces a continuation of the information it receives. Prompt engineering is the practice of making that continuation useful, relevant, and reliable.</p>
 
-        <div class="glass-preview-card">
-          <span class="card-label">⚡ The Continuation Principle</span>
-          <div class="card-quote-box">“The most important discovery of the experiment was...”</div>
-          <div style="display:flex; flex-direction:column; gap:0.65rem;">
-            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-card); padding:0.8rem 1rem; border-radius:10px; font-size:0.9rem;">
-              <span style="font-size:0.72rem; font-weight:800; background:rgba(16,185,129,0.2); color:var(--accent-emerald); padding:0.2rem 0.5rem; border-radius:4px; margin-right:0.5rem;">REPORT</span>
-              ...a measurable change in the observed samples.
-            </div>
-            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-card); padding:0.8rem 1rem; border-radius:10px; font-size:0.9rem;">
-              <span style="font-size:0.72rem; font-weight:800; background:rgba(6,182,212,0.2); color:var(--accent-cyan); padding:0.2rem 0.5rem; border-radius:4px; margin-right:0.5rem;">STORY</span>
-              ...hidden behind the locked laboratory door.
-            </div>
-            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-card); padding:0.8rem 1rem; border-radius:10px; font-size:0.9rem;">
-              <span style="font-size:0.72rem; font-weight:800; background:rgba(139,92,246,0.2); color:var(--accent-violet); padding:0.2rem 0.5rem; border-radius:4px; margin-right:0.5rem;">SUMMARY</span>
-              ...that the first hypothesis did not hold.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <article id="read-ch1" class="reading-content">
-        <h2>Field Notes: 01 · Introduction to Prompt Engineering</h2>
+      <article class="reading-content">
+        <h2>Field Notes: 01 · Fundamentals</h2>
         <div class="callout">
           <p><strong>Big Idea:</strong> A language model produces a continuation of the information it receives. Prompt engineering is the practice of making that continuation useful, relevant, and reliable.</p>
         </div>
 
         <h3>The Central Question</h3>
         <p>Imagine giving a language model the words: <em>“The most important discovery of the experiment was…”</em>. Many continuations are possible. The model could finish a scientific report, invent a dramatic story, or produce a short summary. <strong>The words surrounding the request determine which kind of continuation is likely.</strong></p>
-        <p>That is the starting point of prompt engineering: designing the instructions, examples, and context so that the model's output serves a particular purpose. It is not simply the art of asking a clever question. In an application, prompt engineering also means deciding <strong>what information to retrieve, how to structure a conversation, and what to do with the result</strong>.</p>
 
         <!-- INTERACTIVE ATTENTION WEIGHT EXPLORER -->
         <div class="interactive-panel">
@@ -741,8 +616,6 @@ Explanation: The decoder places highest attention weight on the source determine
         </div>
 
         <h3>1. How Did We Get Here?</h3>
-        <p>The path from early language models to conversational assistants can be understood as a sequence of solutions to information-processing problems:</p>
-
         <div class="content-table-wrapper">
           <table class="content-table">
             <thead>
@@ -761,59 +634,22 @@ Explanation: The decoder places highest attention weight on the source determine
               <tr>
                 <td><strong>2014</strong></td>
                 <td>Sequence-to-sequence (seq2seq) models</td>
-                <td>Translate or transform one sequence into another with an encoder and decoder.</td>
+                <td>Translate or transform one sequence into another.</td>
               </tr>
               <tr>
                 <td><strong>2015</strong></td>
                 <td>Attention in neural sequence models</td>
-                <td>Allow a decoder to access relevant portions of the input rather than relying on one compressed vector.</td>
+                <td>Allow a decoder to access relevant portions of the input.</td>
               </tr>
               <tr>
                 <td><strong>2017</strong></td>
                 <td>The Transformer architecture</td>
-                <td>Use attention as the central mechanism for representing relationships within a sequence.</td>
+                <td>Use attention as the central mechanism for representing relationships.</td>
               </tr>
               <tr>
-                <td><strong>2018</strong></td>
+                <td><strong>2018+</strong></td>
                 <td>GPT: Generative Pre-trained Transformer</td>
-                <td>Pretrain a transformer-based text generator, then adapt it to useful tasks.</td>
-              </tr>
-              <tr>
-                <td><strong>GPT-2 → GPT-3 → GPT-4</strong></td>
-                <td>Increasingly capable language models</td>
-                <td>Prompting becomes an important way to perform tasks without training a new model for each one.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="callout">
-          <p><strong>Remember:</strong> The transformation was not from “predicting words” to an entirely different principle. It was from <strong>simple predictions with limited context</strong> to <strong>powerful context-sensitive prediction</strong>.</p>
-        </div>
-
-        <h3>2. The Original Challenge: A Sentence is Not a Single Vector</h3>
-        <p>An early seq2seq translation model had two main components: an encoder that compressed the source sentence into a single <em>thought vector</em>, and a decoder that generated the translated tokens. This created an information bottleneck where details were lost on long sequences.</p>
-
-        <div class="content-table-wrapper">
-          <table class="content-table">
-            <thead>
-              <tr>
-                <th>Without attention</th>
-                <th>With attention</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>One summary must carry most input information.</td>
-                <td>The decoder can consult a collection of source representations.</td>
-              </tr>
-              <tr>
-                <td>Details can disappear in long sequences.</td>
-                <td>Different source words can become important at different output steps.</td>
-              </tr>
-              <tr>
-                <td>A narrow information bottleneck.</td>
-                <td>More flexible access to context.</td>
+                <td>Pretrain a generator, then adapt it to useful tasks via prompting.</td>
               </tr>
             </tbody>
           </table>
@@ -841,41 +677,24 @@ Result: Plausible but completely unpredictable completion.
           </div>
         </div>
 
-        <h3>3. The Three Limitations Worth Remembering</h3>
+        <h3>3. The Three Limitations</h3>
         <ul>
           <li><strong>A language model is not automatically a search engine:</strong> It can produce plausible text without having retrieved or verified a source.</li>
           <li><strong>Context is finite:</strong> A model processes only the content available to it within its supported context limit.</li>
-          <li><strong>Fluent does not mean correct:</strong> A well-written explanation can still contain factual or logical errors. Verification matters most when errors have consequences.</li>
+          <li><strong>Fluent does not mean correct:</strong> A well-written explanation can still contain factual or logical errors.</li>
         </ul>
       </article>
     </section>
 
     <!-- ==================== CHAPTER 02 ==================== -->
     <section id="ch2" class="chapter-view">
-      <div class="hero-grid">
-        <div>
-          <span class="eyebrow">Chapter 02 · ~17 mins reading</span>
-          <h1 class="hero-heading">Understanding how language models work.</h1>
-          <p class="hero-lead">To use a language model well, understand what it actually processes: tokens, probability distributions, and context.</p>
-          <div class="hero-actions">
-            <a href="#read-ch2" class="btn-action">Explore Deep Notes ↓</a>
-            <span class="tagline-pills">Tokenization · Generation · Temperature · Attention · Hallucinations</span>
-          </div>
-        </div>
+      <span class="eyebrow">Chapter 02 · ~17 mins reading</span>
+      <h1 class="hero-heading">Understanding how language models work.</h1>
+      <p class="hero-lead">To use a language model well, understand what it actually processes: tokens, probability distributions, and context.</p>
 
-        <div class="glass-preview-card">
-          <span class="card-label">⚡ Decoding Math</span>
-          <div class="card-quote-box">p_i(T) = exp(z_i/T) / ∑ exp(z_j/T)</div>
-          <p style="font-size:0.92rem; color:var(--text-muted);">Temperature dictates entropy. Low temperature makes an answer more predictable, but never guarantees truth.</p>
-        </div>
-      </div>
-
-      <article id="read-ch2" class="reading-content">
-        <h2>Field Notes: 02 · Tokens, Probability Distributions, and Context</h2>
-        <div class="callout">
-          <p><strong>Big Idea:</strong> Tokens are not words. Probabilities are not facts. Fluency is not verification. Understanding these three ideas makes prompt behavior predictable.</p>
-        </div>
-
+      <article class="reading-content">
+        <h2>Field Notes: 02 · Tokens & Probabilities</h2>
+        
         <!-- INTERACTIVE TEMPERATURE & SOFTMAX SIMULATOR -->
         <div class="interactive-panel">
           <div class="panel-header">
@@ -883,16 +702,15 @@ Result: Plausible but completely unpredictable completion.
             <span class="interactive-badge">Live Math</span>
           </div>
           <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1.25rem;">Adjust the temperature slider below to see how logits `[mat: 3.5, sofa: 2.8, floor: 2.0, moon: 0.8]` are converted into sampling probabilities:</p>
+          
           <div class="control-row">
             <div class="control-label">
-              <span>Temperature ($T$): <strong id="tempDisplayCh2" style="color:var(--accent-emerald);">0.20</strong></span>
-              <span id="tempCategoryCh2" style="color:var(--accent-cyan); font-weight:700;">Deterministic / Factual</span>
+              <span>Temperature ($T$): <strong id="tempDisplayCh2" style="color:var(--accent-main);">0.20</strong></span>
+              <span id="tempCategoryCh2">Deterministic / Factual</span>
             </div>
             <input type="range" min="1" max="180" value="20" class="slider-input" id="sliderTempCh2" oninput="runTemperatureSoftmax(this.value)">
           </div>
-          <div class="output-screen" id="softmaxProbScreen">
-Calculating probabilities...
-          </div>
+          <div class="output-screen" id="softmaxProbScreen">Calculating probabilities...</div>
         </div>
 
         <h3>Temperature Heuristics</h3>
@@ -921,11 +739,6 @@ Calculating probabilities...
                 <td><strong>0.9 – 1.3</strong></td>
                 <td>More variety, with greater risk of incoherence.</td>
               </tr>
-              <tr>
-                <td>Experimental generation</td>
-                <td><strong>Above 1.3</strong></td>
-                <td>Highly variable and often unstable.</td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -936,69 +749,46 @@ Calculating probabilities...
             <h4>🔡 Interactive Tokenizer & Subword Sandbox</h4>
             <span class="interactive-badge">Live Tokenizer</span>
           </div>
-          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:0.85rem;">Type text below to inspect subword segmentation, character count, and token overhead:</p>
-          <input type="text" id="liveTokenizerInput" value="Yesterday, my TV stopped working. Now I can't turn it on at all." style="width:100%; padding:0.85rem 1.2rem; background:var(--code-bg); color:#fff; border:1px solid var(--border-card); border-radius:10px; font-family:'JetBrains Mono', monospace; font-size:0.95rem;" oninput="tokenizeLive(this.value)">
-          <div class="token-display" id="liveTokenChips"></div>
-          <div style="margin-top:1.25rem; display:flex; gap:2rem; font-size:0.9rem; font-weight:700; color:var(--text-muted);">
-            <div>Tokens: <span id="tokCountDisplay" style="color:var(--accent-emerald);">17</span></div>
-            <div>Characters: <span id="charCountDisplay" style="color:#fff;">64</span></div>
-            <div>Avg Chars/Token: <span id="ratioDisplay" style="color:var(--accent-cyan);">3.8</span></div>
+          <input type="text" id="liveTokenizerInput" value="Yesterday, my TV stopped working. Now I can't turn it on at all." style="width:100%; padding:0.85rem 1.2rem; background:var(--code-bg); color:var(--code-text); border:1px solid var(--border-color); border-radius:10px; font-family:'JetBrains Mono', monospace; font-size:0.95rem; margin-bottom:1rem;" oninput="tokenizeLive(this.value)">
+          <div id="liveTokenChips"></div>
+          <div style="margin-top:1.25rem; display:flex; gap:2rem; font-size:0.9rem; font-weight:700;">
+            <div>Tokens: <span id="tokCountDisplay" style="color:var(--accent-main);">17</span></div>
+            <div>Characters: <span id="charCountDisplay">64</span></div>
           </div>
         </div>
 
-        <h3>Causal Masking and Prefill vs Generation</h3>
-        <p>In a causal decoder, attention uses a mask so that a token position cannot access future token positions during ordinary autoregressive prediction:</p>
+        <h3>Causal Masking</h3>
+        <p>In a causal decoder, attention uses a mask so that a token position cannot access future tokens during ordinary prediction:</p>
         <div class="code-block">Position:        1    2    3    4
 Can attend to:
 1                ✓    ·    ·    ·
 2                ✓    ✓    ·    ·
 3                ✓    ✓    ✓    ·
 4                ✓    ✓    ✓    ✓</div>
-        <p><strong>Prefill Phase:</strong> Evaluates prompt tokens in parallel.<br><strong>Generation Phase:</strong> Strictly sequential token emission step by step.</p>
       </article>
     </section>
 
     <!-- ==================== CHAPTER 03 ==================== -->
     <section id="ch3" class="chapter-view">
-      <div class="hero-grid">
-        <div>
-          <span class="eyebrow">Chapter 03 · ~15 mins reading</span>
-          <h1 class="hero-heading">Chat models, human feedback, and tools.</h1>
-          <p class="hero-lead">A base language model completes text. A chat assistant is trained and packaged to participate in structured conversation, follow instructions, and cooperate with tools.</p>
-          <div class="hero-actions">
-            <a href="#read-ch3" class="btn-action">Explore Deep Notes ↓</a>
-            <span class="tagline-pills">SFT · RLHF · Roles · ChatML · Tool Calls</span>
-          </div>
-        </div>
+      <span class="eyebrow">Chapter 03 · ~15 mins reading</span>
+      <h1 class="hero-heading">Chat models, human feedback, and tools.</h1>
+      <p class="hero-lead">A base language model completes text. A chat assistant is trained and packaged to participate in structured conversation.</p>
 
-        <div class="glass-preview-card">
-          <span class="card-label">⚡ Multi-Turn Hierarchy</span>
-          <div class="code-block" style="margin:0;">&lt;|im_start|&gt;system
-You are a concise study assistant.
-&lt;|im_end|&gt;
-&lt;|im_start|&gt;user
-Explain RAM vs storage.
-&lt;|im_end|&gt;</div>
-          <p style="font-size:0.85rem; color:var(--text-muted); margin-top:1rem;">Roles define boundaries and authority.</p>
-        </div>
-      </div>
+      <article class="reading-content">
+        <h2>Field Notes: 03 · Alignment & Tools</h2>
 
-      <article id="read-ch3" class="reading-content">
-        <h2>Field Notes: 03 · Alignment, Structured Dialogue, and Tools</h2>
-
-        <!-- INTERACTIVE TRAIN TIMETABLE TOOL-CALL FLOW -->
+        <!-- INTERACTIVE TOOL CALL STEPPER -->
         <div class="interactive-panel">
           <div class="panel-header">
             <h4>🚆 Interactive Tool-Execution Stepper</h4>
             <span class="interactive-badge">Tool Simulation</span>
           </div>
-          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;">Step through how the application intercepts model requests and runs external timetable APIs:</p>
           <div class="tab-pills">
             <button class="pill-btn active" onclick="stepToolFlow(1)">1. User Request</button>
-            <button class="pill-btn" onclick="stepToolFlow(2)">2. Model Tool Proposal</button>
-            <button class="pill-btn" onclick="stepToolFlow(3)">3. App API Execution</button>
-            <button class="pill-btn" onclick="stepToolFlow(4)">4. Tool Result Injection</button>
-            <button class="pill-btn" onclick="stepToolFlow(5)">5. Grounded Final Reply</button>
+            <button class="pill-btn" onclick="stepToolFlow(2)">2. Model Proposal</button>
+            <button class="pill-btn" onclick="stepToolFlow(3)">3. API Execution</button>
+            <button class="pill-btn" onclick="stepToolFlow(4)">4. Result Injection</button>
+            <button class="pill-btn" onclick="stepToolFlow(5)">5. Final Reply</button>
           </div>
           <div class="output-screen" id="toolStepOutput">
 [User Turn]: "When is the next train to Warsaw Central?"
@@ -1006,12 +796,12 @@ Status: Dispatched to application orchestrator.
           </div>
         </div>
 
-        <h3>The Training Pipeline: SFT → Feedback → RLHF</h3>
+        <h3>The Training Pipeline</h3>
         <ul>
-          <li><strong>Supervised Fine-Tuning (SFT):</strong> Human demonstrations show what good assistant replies look like.</li>
-          <li><strong>Human Preference Comparisons:</strong> Evaluators rank multiple candidate responses.</li>
-          <li><strong>Reward Modeling:</strong> A neural reward model learns to predict human preference scores.</li>
-          <li><strong>Reinforcement Learning (PPO):</strong> Optimizes policy behavior against the reward signal while mitigating reward hacking.</li>
+          <li><strong>Supervised Fine-Tuning (SFT):</strong> Human demonstrations.</li>
+          <li><strong>Human Preference Comparisons:</strong> Evaluators rank responses.</li>
+          <li><strong>Reward Modeling:</strong> A neural reward model predicts scores.</li>
+          <li><strong>Reinforcement Learning (PPO):</strong> Optimizes policy behavior.</li>
         </ul>
 
         <h3>Chat API Parameters</h3>
@@ -1021,30 +811,13 @@ Status: Dispatched to application orchestrator.
               <tr>
                 <th>Parameter</th>
                 <th>What it controls</th>
-                <th>Why it matters</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><code>max_tokens</code></td>
-                <td>Output-length budget</td>
-                <td>Prevents runaway generation and caps latency/expense.</td>
-              </tr>
-              <tr>
-                <td><code>temperature</code></td>
-                <td>Sampling randomness</td>
-                <td>Balances predictability with lexical variety.</td>
-              </tr>
-              <tr>
-                <td><code>stop</code></td>
-                <td>Stop sequences</td>
-                <td>Useful for bounded text structures and JSON schemas.</td>
-              </tr>
-              <tr>
-                <td><code>stream</code></td>
-                <td>Incremental delivery</td>
-                <td>Reduces time-to-first-token perception.</td>
-              </tr>
+              <tr><td><code>max_tokens</code></td><td>Output-length budget</td></tr>
+              <tr><td><code>temperature</code></td><td>Sampling randomness</td></tr>
+              <tr><td><code>stop</code></td><td>Stop sequences</td></tr>
+              <tr><td><code>stream</code></td><td>Incremental delivery</td></tr>
             </tbody>
           </table>
         </div>
@@ -1053,26 +826,12 @@ Status: Dispatched to application orchestrator.
 
     <!-- ==================== CHAPTER 04 ==================== -->
     <section id="ch4" class="chapter-view">
-      <div class="hero-grid">
-        <div>
-          <span class="eyebrow">Chapter 04 · ~17 mins reading</span>
-          <h1 class="hero-heading">Designing applications with language models.</h1>
-          <p class="hero-lead">The model produces text; the application turns a real-world problem into the right model input and turns the output into a useful result.</p>
-          <div class="hero-actions">
-            <a href="#read-ch4" class="btn-action">Explore Deep Notes ↓</a>
-            <span class="tagline-pills">Application Loops · Context · Feedforward · ReAct</span>
-          </div>
-        </div>
+      <span class="eyebrow">Chapter 04 · ~17 mins reading</span>
+      <h1 class="hero-heading">Designing applications with language models.</h1>
+      <p class="hero-lead">The application turns a real-world problem into the right model input and turns the output into a useful result.</p>
 
-        <div class="glass-preview-card">
-          <span class="card-label">⚡ Feedforward Pipeline</span>
-          <div class="card-quote-box">Retrieval ➔ Snippetize ➔ Prioritize ➔ Assemble</div>
-          <p style="font-size:0.88rem; color:var(--text-muted);">Transforming real-world user intent into a bounded, high-signal prompt.</p>
-        </div>
-      </div>
-
-      <article id="read-ch4" class="reading-content">
-        <h2>Field Notes: 04 · Application Loops, Context, and Evaluation</h2>
+      <article class="reading-content">
+        <h2>Field Notes: 04 · Application Loops</h2>
 
         <!-- INTERACTIVE COMPLEXITY ARCHETYPE MATRIX -->
         <div class="interactive-panel">
@@ -1080,7 +839,6 @@ Status: Dispatched to application orchestrator.
             <h4>📐 Application Complexity Inspector</h4>
             <span class="interactive-badge">System Design</span>
           </div>
-          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;">Select an application archetype to inspect its context, medium, abstraction, and state demands:</p>
           <div class="tab-pills">
             <button class="pill-btn active" onclick="inspectAppComplexity('proof')">Text Proofreading</button>
             <button class="pill-btn" onclick="inspectAppComplexity('it')">IT Support</button>
@@ -1092,17 +850,8 @@ Archetype: Text Proofreading
 - Abstraction: One bounded task
 - Context: Usually the user's supplied text only
 - State: Often independent one-shot requests
-- Pipeline Needs: Fast single-pass call without heavy database retrieval.
           </div>
         </div>
-
-        <h3>The Four Requirements of an Effective Prompt</h3>
-        <ol>
-          <li><strong>A familiar format:</strong> Structure like a recognizable document or dialogue (The <em>Little Red Riding Hood principle</em>).</li>
-          <li><strong>Enough relevant information:</strong> Supply what is necessary; omit clutter.</li>
-          <li><strong>A clear direction:</strong> Tell the model what to accomplish and how to begin.</li>
-          <li><strong>A controlled stopping point:</strong> Define the output boundary explicitly.</li>
-        </ol>
 
         <h3>Feedforward Pipeline: 4 Stages</h3>
         <div class="content-table-wrapper">
@@ -1143,42 +892,27 @@ Archetype: Text Proofreading
 
     <!-- ==================== CHAPTER 05 ==================== -->
     <section id="ch5" class="chapter-view">
-      <div class="hero-grid">
-        <div>
-          <span class="eyebrow">Chapter 05 · ~22 mins reading</span>
-          <h1 class="hero-heading">Prompt content, context, and RAG.</h1>
-          <p class="hero-lead">The quality of an LLM response depends on which information enters the prompt. The engineering challenge is to find, prioritize, and present the most useful context.</p>
-          <div class="hero-actions">
-            <a href="#read-ch5" class="btn-action">Explore Deep Notes ↓</a>
-            <span class="tagline-pills">Static vs Dynamic · Jaccard · Embeddings · Snippetizing · RAG</span>
-          </div>
-        </div>
+      <span class="eyebrow">Chapter 05 · ~22 mins reading</span>
+      <h1 class="hero-heading">Prompt content, context, and RAG.</h1>
+      <p class="hero-lead">The engineering challenge is to find, prioritize, and present the most useful context.</p>
 
-        <div class="glass-preview-card">
-          <span class="card-label">⚡ Chekhov's Gun in RAG</span>
-          <div class="card-quote-box">“Better retrieval beats adding more retrieved text.”</div>
-          <p style="font-size:0.88rem; color:var(--text-muted);">Irrelevant snippets force models to integrate hallucinations into the answer.</p>
-        </div>
-      </div>
-
-      <article id="read-ch5" class="reading-content">
+      <article class="reading-content">
         <h2>Field Notes: 05 · Retrieval-Augmented Generation</h2>
 
         <!-- INTERACTIVE JACCARD SIMILARITY CALCULATOR -->
         <div class="interactive-panel">
           <div class="panel-header">
-            <h4>🧮 Interactive Jaccard Lexical Similarity Calculator</h4>
-            <span class="interactive-badge">Formula: J(A,B) = |A ∩ B| / |A ∪ B|</span>
+            <h4>🧮 Jaccard Lexical Similarity Calculator</h4>
+            <span class="interactive-badge">J(A,B) = |A ∩ B| / |A ∪ B|</span>
           </div>
-          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;">Edit terms below to compute exact set overlap between Query and Document:</p>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
             <div>
-              <label style="font-size:0.84rem; font-weight:700; color:#fff;">Query Terms (space separated):</label>
-              <input type="text" id="jaccardQ" value="space travel novel" style="width:100%; padding:0.75rem; background:var(--code-bg); color:#fff; border:1px solid var(--border-card); border-radius:8px; font-family:'JetBrains Mono', monospace;" oninput="calcJaccard()">
+              <label style="font-size:0.84rem; font-weight:700;">Query Terms:</label>
+              <input type="text" id="jaccardQ" value="space travel novel" style="width:100%; padding:0.75rem; background:var(--code-bg); color:var(--code-text); border:1px solid var(--border-color); border-radius:8px;" oninput="calcJaccard()">
             </div>
             <div>
-              <label style="font-size:0.84rem; font-weight:700; color:#fff;">Document Terms (space separated):</label>
-              <input type="text" id="jaccardD" value="space travel novel science" style="width:100%; padding:0.75rem; background:var(--code-bg); color:#fff; border:1px solid var(--border-card); border-radius:8px; font-family:'JetBrains Mono', monospace;" oninput="calcJaccard()">
+              <label style="font-size:0.84rem; font-weight:700;">Document Terms:</label>
+              <input type="text" id="jaccardD" value="space travel novel science" style="width:100%; padding:0.75rem; background:var(--code-bg); color:var(--code-text); border:1px solid var(--border-color); border-radius:8px;" oninput="calcJaccard()">
             </div>
           </div>
           <div class="output-screen" id="jaccardOutput">Calculating Jaccard...</div>
@@ -1187,15 +921,13 @@ Archetype: Text Proofreading
         <!-- INTERACTIVE SLIDING WINDOW CHUNKER -->
         <div class="interactive-panel">
           <div class="panel-header">
-            <h4>✂️ Sliding Window & Overlap Chunker</h4>
+            <h4>✂️ Sliding Window Chunker</h4>
             <span class="interactive-badge">Chunking Simulator</span>
           </div>
-          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;">Adjust window size and stride to see how overlap prevents split concept loss:</p>
           <div class="control-row">
             <div class="control-label">
-              <span>Window Size (words): <strong id="winSizeVal" style="color:var(--accent-emerald);">200</strong></span>
-              <span>Stride: <strong id="strideVal" style="color:var(--accent-cyan);">120</strong></span>
-              <span>Overlap: <strong id="overlapVal" style="color:var(--accent-amber);">80 words</strong></span>
+              <span>Window Size: <strong id="winSizeVal">200</strong></span>
+              <span>Stride: <strong id="strideVal">120</strong></span>
             </div>
             <input type="range" min="50" max="300" value="200" class="slider-input" id="sliderWin" oninput="updateChunkingSlider()">
           </div>
@@ -1213,26 +945,9 @@ Archetype: Text Proofreading
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Matches exact terms & codes?</td>
-                <td>Very naturally</td>
-                <td>Not always reliably</td>
-              </tr>
-              <tr>
-                <td>Finds conceptual paraphrases?</td>
-                <td>Limited</td>
-                <td>Often very strong</td>
-              </tr>
-              <tr>
-                <td>Easy to explain a match?</td>
-                <td>Usually straightforward</td>
-                <td>Less straightforward</td>
-              </tr>
-              <tr>
-                <td>Requires vector database?</td>
-                <td>No</td>
-                <td>Yes</td>
-              </tr>
+              <tr><td>Matches exact terms & codes?</td><td>Very naturally</td><td>Not always reliably</td></tr>
+              <tr><td>Finds conceptual paraphrases?</td><td>Limited</td><td>Often very strong</td></tr>
+              <tr><td>Requires vector database?</td><td>No</td><td>Yes</td></tr>
             </tbody>
           </table>
         </div>
@@ -1241,48 +956,28 @@ Archetype: Text Proofreading
 
     <!-- ==================== CHAPTER 06 ==================== -->
     <section id="ch6" class="chapter-view">
-      <div class="hero-grid">
-        <div>
-          <span class="eyebrow">Chapter 06 · ~30 mins reading</span>
-          <h1 class="hero-heading">Prompt engineering laboratory.</h1>
-          <p class="hero-lead">Stop treating prompts as magic phrases. Treat them as experimental designs: make a prediction, test alternatives, inspect output, and document changes.</p>
-          <div class="hero-actions">
-            <a href="#read-ch6" class="btn-action">Explore Deep Notes ↓</a>
-            <span class="tagline-pills">4 Labs · 24 Model Runs · Tree of Thought · ReAct · Quiz</span>
-          </div>
-        </div>
+      <span class="eyebrow">Chapter 06 · ~30 mins reading</span>
+      <h1 class="hero-heading">Prompt engineering laboratory.</h1>
+      <p class="hero-lead">Stop treating prompts as magic phrases. Treat them as experimental designs.</p>
 
-        <div class="glass-preview-card">
-          <span class="card-label">⚡ Empirical Workstation</span>
-          <div class="card-quote-box">“Measure, Iterate, Validate.”</div>
-          <p style="font-size:0.88rem; color:var(--text-muted);">Lab 1 fallacy benchmarking, Lab 2 chaining, Lab 3 tree-of-thought, Lab 4 medical diagnostics.</p>
-        </div>
-      </div>
-
-      <article id="read-ch6" class="reading-content">
+      <article class="reading-content">
         <h2>Field Notes: 06 · Laboratory Workbook & Experiments</h2>
 
         <!-- INTERACTIVE LAB 1 FALLACY HARNESS -->
         <div class="interactive-panel">
           <div class="panel-header">
-            <h4>🧪 Lab 1: Interactive Fallacy Classifier (24 Runs Harness)</h4>
+            <h4>🧪 Lab 1: Interactive Fallacy Classifier</h4>
             <span class="interactive-badge">Live Lab Bench</span>
           </div>
-          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;">Select one of the 8 assigned argument cases and pick a strategy to run the live test:</p>
           <div class="tab-pills" id="casePills">
-            <button class="pill-btn active" onclick="loadCase('A')">Case A (Logo)</button>
-            <button class="pill-btn" onclick="loadCase('B')">Case B (Actor)</button>
-            <button class="pill-btn" onclick="loadCase('C')">Case C (Waiters)</button>
-            <button class="pill-btn" onclick="loadCase('D')">Case D (Phones)</button>
-            <button class="pill-btn" onclick="loadCase('E')">Case E (Bill)</button>
-            <button class="pill-btn" onclick="loadCase('F')">Case F (Jobs)</button>
-            <button class="pill-btn" onclick="loadCase('G')">Case G (Cars)</button>
-            <button class="pill-btn" onclick="loadCase('H')">Case H (Exercise)</button>
+            <button class="pill-btn active" onclick="loadCase('A')">Case A</button>
+            <button class="pill-btn" onclick="loadCase('B')">Case B</button>
+            <button class="pill-btn" onclick="loadCase('C')">Case C</button>
+            <button class="pill-btn" onclick="loadCase('D')">Case D</button>
           </div>
 
-          <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-card); padding:1.2rem; border-radius:12px; margin-bottom:1.2rem;">
-            <span style="font-size:0.75rem; font-weight:800; color:var(--accent-emerald); text-transform:uppercase;">Argument Under Test:</span>
-            <p id="caseQuoteDisplay" style="margin:0.5rem 0 0 0; font-family:'Space Grotesk', sans-serif; font-size:1.15rem; color:#fff;">
+          <div style="background:var(--bg-main); border:1px solid var(--border-color); padding:1.2rem; border-radius:12px; margin-bottom:1.2rem;">
+            <p id="caseQuoteDisplay" style="margin:0; font-family:'Space Grotesk', sans-serif; font-size:1.15rem; color:var(--text-main);">
               “Sales started falling after we introduced a new logo. This proves that the logo change discouraged customers.”
             </p>
           </div>
@@ -1295,11 +990,10 @@ Archetype: Text Proofreading
 
           <div class="output-screen" id="lab1RunOutput">Executing run...</div>
 
-          <button class="btn-action" style="margin-top:1.2rem;" onclick="revealGroundTruth()">Reveal Instructor Ground Truth & Evaluation Rubric</button>
-          <div id="groundTruthBox" style="display:none; margin-top:1.2rem; padding:1.2rem; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); border-radius:12px; font-size:0.95rem; color:#fff;">
-            <strong>Intended Reference Category:</strong> <span id="refCatText" style="color:var(--accent-emerald);">False cause</span><br>
-            <strong>Core Issue:</strong> <span id="refIssueText">Temporal sequence alone does not establish causation.</span><br>
-            <strong>Rubric Score:</strong> 2/2 Points (Classification matches reference; identifies chronological reasoning gap).
+          <button class="control-btn" style="margin-top:1.2rem; width:auto; padding:0.5rem 1rem;" onclick="revealGroundTruth()">Reveal Ground Truth</button>
+          <div id="groundTruthBox" style="display:none; margin-top:1.2rem; padding:1.2rem; background:var(--accent-bg); border:1px solid var(--accent-main); border-radius:12px;">
+            <strong>Category:</strong> <span id="refCatText" style="color:var(--accent-main);">False cause</span><br>
+            <strong>Issue:</strong> <span id="refIssueText">Temporal sequence alone does not establish causation.</span>
           </div>
         </div>
 
@@ -1307,13 +1001,12 @@ Archetype: Text Proofreading
         <div class="interactive-panel">
           <div class="panel-header">
             <h4>🌳 Lab 3: Tree-of-Thought Traffic Strategy Evaluator</h4>
-            <span class="interactive-badge">Multi-Criteria Decision Matrix</span>
+            <span class="interactive-badge">Decision Matrix</span>
           </div>
-          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;">Adjust your municipality priority weights to find the optimal 10-year congestion strategy for a 150,000-inhabitant city:</p>
           <div class="control-row">
             <div class="control-label">
-              <span>Budget Sensitivity Weight (Low Cost Priority): <strong id="wCostVal" style="color:var(--accent-emerald);">50%</strong></span>
-              <span>Speed of Deployment Priority: <strong id="wSpeedVal" style="color:var(--accent-cyan);">50%</strong></span>
+              <span>Budget Priority: <strong id="wCostVal">50%</strong></span>
+              <span>Speed Priority: <strong id="wSpeedVal">50%</strong></span>
             </div>
             <input type="range" min="0" max="100" value="50" class="slider-input" id="sliderWeightToT" oninput="updateToTMatrix(this.value)">
           </div>
@@ -1323,83 +1016,15 @@ Archetype: Text Proofreading
               <thead>
                 <tr>
                   <th>Candidate Branch</th>
-                  <th>Capex Cost</th>
-                  <th>Deployment Speed</th>
-                  <th>Calculated Viability Score</th>
+                  <th>Score</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><strong>Branch A: Public Transit Expansion</strong></td>
-                  <td>High ($$$)</td>
-                  <td>Slow (5–7 yrs)</td>
-                  <td id="scoreA" style="color:var(--accent-cyan); font-weight:700;">54 / 100</td>
-                </tr>
-                <tr>
-                  <td><strong>Branch B: Traffic Management</strong></td>
-                  <td>Low ($)</td>
-                  <td>Fast (1–2 yrs)</td>
-                  <td id="scoreB" style="color:var(--accent-emerald); font-weight:700;">78 / 100</td>
-                </tr>
-                <tr>
-                  <td><strong>Branch C: Demand Reduction & Charges</strong></td>
-                  <td>Medium ($$)</td>
-                  <td>Moderate (2–4 yrs)</td>
-                  <td id="scoreC" style="color:var(--accent-amber); font-weight:700;">66 / 100</td>
-                </tr>
+                <tr><td><strong>A: Public Transit Expansion</strong></td><td id="scoreA">54 / 100</td></tr>
+                <tr><td><strong>B: Traffic Management</strong></td><td id="scoreB">78 / 100</td></tr>
+                <tr><td><strong>C: Demand Reduction & Charges</strong></td><td id="scoreC">66 / 100</td></tr>
               </tbody>
             </table>
-          </div>
-          <p id="totRecommendation" style="font-size:0.95rem; font-weight:700; color:var(--accent-emerald);">
-            Optimal Recommendation: Combined Phase (Branch B immediate rollout during Years 1–2, funding Branch A long-term transit expansion by Year 10).
-          </p>
-        </div>
-
-        <!-- COMPREHENSIVE QUIZ -->
-        <div class="interactive-panel">
-          <div class="panel-header">
-            <h4>🎓 Final Masterclass Knowledge Assessment</h4>
-            <span class="interactive-badge">Score: <span id="finalScore">0</span> / 4</span>
-          </div>
-
-          <div class="quiz-card">
-            <div class="quiz-question">1. What fundamental bottleneck did the 2015 Attention mechanism resolve in early seq2seq models?</div>
-            <div class="quiz-options">
-              <button class="quiz-opt-btn" onclick="gradeFinal(1, false, 'Incorrect. Tokenization existed before attention.')">A) Inability to tokenize text sequences</button>
-              <button class="quiz-opt-btn" onclick="gradeFinal(1, true, 'Correct! Compressing an entire sequence into a single fixed thought vector lost critical details before decoding.')">B) Loss of details caused by compressing entire sequences into a single fixed vector</button>
-              <button class="quiz-opt-btn" onclick="gradeFinal(1, false, 'Incorrect. Causal masking is a feature of autoregressive decoders, not the bottleneck.')">C) Inability to prevent models from seeing future tokens</button>
-            </div>
-            <div class="quiz-feedback" id="qfb1"></div>
-          </div>
-
-          <div class="quiz-card">
-            <div class="quiz-question">2. When Temperature (T) approaches 0.0 in the softmax equation, how does decoding behave?</div>
-            <div class="quiz-options">
-              <button class="quiz-opt-btn" onclick="gradeFinal(2, true, 'Correct! As T approaches 0, the softmax concentrates entirely on the highest logit token (greedy decoding).')">A) It approaches greedy selection, concentrating probability on the highest-scoring token</button>
-              <button class="quiz-opt-btn" onclick="gradeFinal(2, false, 'Incorrect. High temperatures flatten the curve, not low temperatures.')">B) It flattens the probability distribution, generating maximum entropy and hallucinations</button>
-              <button class="quiz-opt-btn" onclick="gradeFinal(2, false, 'Incorrect. Temperature does not alter the context window size.')">C) It automatically doubles the model context window</button>
-            </div>
-            <div class="quiz-feedback" id="qfb2"></div>
-          </div>
-
-          <div class="quiz-card">
-            <div class="quiz-question">3. In a production tool-calling application, who actually executes the real API call?</div>
-            <div class="quiz-options">
-              <button class="quiz-opt-btn" onclick="gradeFinal(3, false, 'Incorrect. Language models are text predictors; they cannot independently dispatch HTTP calls.')">A) The language model neural network</button>
-              <button class="quiz-opt-btn" onclick="gradeFinal(3, true, 'Correct! The model proposes the structured request, but the surrounding software validates and executes the call.')">B) The surrounding application software</button>
-              <button class="quiz-opt-btn" onclick="gradeFinal(3, false, 'Incorrect. The user only views the final grounded reply.')">C) The end-user in their local browser</button>
-            </div>
-            <div class="quiz-feedback" id="qfb3"></div>
-          </div>
-
-          <div class="quiz-card">
-            <div class="quiz-question">4. What does Jaccard similarity calculate between query terms A and document terms B?</div>
-            <div class="quiz-options">
-              <button class="quiz-opt-btn" onclick="gradeFinal(4, true, 'Correct! J(A,B) = |A ∩ B| / |A ∪ B| (size of intersection divided by size of union).')">A) The size of the intersection divided by the size of the union (|A ∩ B| / |A ∪ B|)</button>
-              <button class="quiz-opt-btn" onclick="gradeFinal(4, false, 'Incorrect. Dot product of normalized vectors is cosine similarity, not Jaccard.')">B) The dot product between two 1536-dimensional dense embedding vectors</button>
-              <button class="quiz-opt-btn" onclick="gradeFinal(4, false, 'Incorrect. Inverse document frequency is BM25/TF-IDF.')">C) The ratio of stop words removed during stemming</button>
-            </div>
-            <div class="quiz-feedback" id="qfb4"></div>
           </div>
         </div>
       </article>
@@ -1416,16 +1041,50 @@ Archetype: Text Proofreading
       document.getElementById("progressBar").style.width = scrolled + "%";
     };
 
-    /* CHAPTER SWITCHER */
+    /* THEME SWITCHER */
+    function toggleTheme() {
+      const html = document.documentElement;
+      const icon = document.getElementById("themeIcon");
+      if (html.getAttribute("data-theme") === "dark") {
+        html.setAttribute("data-theme", "light");
+        icon.textContent = "🌙";
+      } else {
+        html.setAttribute("data-theme", "dark");
+        icon.textContent = "☀️";
+      }
+    }
+
+    /* STEALTH / PRIVACY MODE */
+    function toggleStealth() {
+      const overlay = document.getElementById("stealthOverlay");
+      overlay.style.display = overlay.style.display === "flex" ? "none" : "flex";
+    }
+    
+    // Global hotkey for stealth mode (Esc key)
+    document.addEventListener('keydown', function(event) {
+      if (event.key === "Escape") {
+        toggleStealth();
+      }
+    });
+
+    /* MOBILE MENU TOGGLE */
+    function toggleMobileMenu() {
+      document.getElementById("navMenu").classList.toggle("open");
+    }
+
+    /* CHAPTER NAVIGATION CONTROLLER */
     function switchChapter(chId, evt) {
       document.querySelectorAll('.chapter-view').forEach(v => v.classList.remove('active'));
-      document.querySelectorAll('.chapter-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
 
       const target = document.getElementById(chId);
       if (target) target.classList.add('active');
 
       if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Close mobile menu if open
+      document.getElementById("navMenu").classList.remove("open");
     }
 
     /* CH1 ATTENTION VISUALIZER */
@@ -1473,16 +1132,12 @@ Archetype: Text Proofreading
 
       if (temp < 0.4) {
         cat.textContent = "Factual / Deterministic (0.0 - 0.3)";
-        cat.style.color = "var(--accent-emerald)";
       } else if (temp < 0.9) {
         cat.textContent = "Balanced Dialogue (0.5 - 0.8)";
-        cat.style.color = "var(--accent-cyan)";
       } else if (temp < 1.4) {
         cat.textContent = "Creative / Storytelling (0.9 - 1.3)";
-        cat.style.color = "var(--accent-amber)";
       } else {
         cat.textContent = "Experimental / Chaotic (> 1.3)";
-        cat.style.color = "#ef4444";
       }
 
       out.textContent = `p(mat)   : ${p[0].toFixed(1).padStart(4)}% [${bar(p[0])}]\np(sofa)  : ${p[1].toFixed(1).padStart(4)}% [${bar(p[1])}]\np(floor) : ${p[2].toFixed(1).padStart(4)}% [${bar(p[2])}]\np(moon)  : ${p[3].toFixed(1).padStart(4)}% [${bar(p[3])}]\n\nSoftmax Behavior at T=${temp}: ${temp < 0.4 ? 'Probability concentrates heavily on the top logit ("mat"). Output is predictable.' : temp < 1.0 ? 'Reasonable spread across top semantically coherent candidates.' : 'Probability distribution flattens drastically; unlikely tokens become easily sampled.'}`;
@@ -1500,14 +1155,12 @@ Archetype: Text Proofreading
         const span = document.createElement('span');
         span.className = 'token-chip';
         span.textContent = w === ' ' ? '␣' : w;
-        if (w === ' ') span.style.color = '#64748b';
         chipContainer.appendChild(span);
       });
 
       const count = words.length;
       document.getElementById('tokCountDisplay').textContent = count;
       document.getElementById('charCountDisplay').textContent = txt.length;
-      document.getElementById('ratioDisplay').textContent = (txt.length / (count || 1)).toFixed(1);
     }
     tokenizeLive("Yesterday, my TV stopped working. Now I can't turn it on at all.");
 
@@ -1561,12 +1214,11 @@ Archetype: Text Proofreading
 
       document.getElementById('winSizeVal').textContent = w;
       document.getElementById('strideVal').textContent = stride;
-      document.getElementById('overlapVal').textContent = overlap + " words";
 
       const totalWords = 1000;
       const chunks = Math.ceil((totalWords - w) / stride) + 1;
 
-      document.getElementById('chunkerOutput').textContent = `Chunking Calculation:\n- Document Length: 1,000 words\n- Chunk 1: Words 0 to ${w}\n- Chunk 2: Words ${stride} to ${stride + w} [Overlap: ${overlap} words with Chunk 1]\n- Chunk 3: Words ${stride * 2} to ${stride * 2 + w} [Overlap: ${overlap} words with Chunk 2]\n- Total Chunks Produced: ${chunks} searchable passages.`;
+      document.getElementById('chunkerOutput').textContent = `Chunking Calculation:\n- Document Length: 1,000 words\n- Chunk 1: Words 0 to ${w}\n- Chunk 2: Words ${stride} to ${stride + w} [Overlap: ${overlap} words with Chunk 1]\n- Total Chunks Produced: ${chunks} searchable passages.`;
     }
     updateChunkingSlider();
 
@@ -1575,11 +1227,7 @@ Archetype: Text Proofreading
       'A': { text: '“Sales started falling after we introduced a new logo. This proves that the logo change discouraged customers.”', ref: 'False cause', issue: 'Temporal sequence alone does not establish causation.' },
       'B': { text: '“This supplement must work because a famous actor said in an interview that it made them feel great.”', ref: 'Appeal to authority', issue: 'A celebrity endorsement is not verified medical evidence.' },
       'C': { text: '“I met two rude waiters at this restaurant chain. Clearly, the entire company has terrible staff.”', ref: 'Hasty generalization', issue: 'Two isolated examples cannot justify a universal claim about all employees.' },
-      'D': { text: '“If we allow students to use phones in class, within a year nobody will pay attention and the education system will collapse.”', ref: 'Slippery slope', issue: 'A catastrophic chain of events is asserted without intermediate evidential support.' },
-      'E': { text: '“If we do not vote for this bill, our economy will collapse catastrophically and we will all lose our savings.”', ref: 'Appeal to fear', issue: 'A frightening outcome is substituted for evidence on the actual bill mechanics.' },
-      'F': { text: '“We should not listen to his tax-reform proposal because he changed jobs twice within one year.”', ref: 'Ad hominem', issue: 'Job tenure is used to dismiss a proposal rather than analyzing the tax policy.' },
-      'G': { text: '“Either you support a complete ban on internal-combustion cars, or you do not care about the environment at all.”', ref: 'False dilemma', issue: 'Excludes legitimate intermediate positions or hybrid policy solutions.' },
-      'H': { text: '“A study involving 10,000 people indicates that regular physical activity reduces heart disease. Therefore, it is worth encouraging older adults to exercise.”', ref: 'No clear fallacy (intended)', issue: 'Evidence is cited in support of a proportionate and justified recommendation.' }
+      'D': { text: '“If we allow students to use phones in class, within a year nobody will pay attention and the education system will collapse.”', ref: 'Slippery slope', issue: 'A catastrophic chain of events is asserted without intermediate evidential support.' }
     };
 
     let activeCase = 'A';
@@ -1641,24 +1289,6 @@ Archetype: Text Proofreading
       document.getElementById('scoreC').textContent = scoreC + " / 100";
     }
     updateToTMatrix(50);
-
-    /* FINAL QUIZ EVALUATOR */
-    let qDone = { 1: false, 2: false, 3: false, 4: false };
-    let finalScore = 0;
-
-    function gradeFinal(qId, isCorrect, msg) {
-      const fb = document.getElementById('qfb' + qId);
-      fb.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'incorrect');
-      fb.textContent = msg;
-
-      if (!qDone[qId]) {
-        qDone[qId] = true;
-        if (isCorrect) {
-          finalScore++;
-          document.getElementById('finalScore').textContent = finalScore;
-        }
-      }
-    }
   </script>
 </body>
 </html>
