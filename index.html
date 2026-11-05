@@ -53,4 +53,278 @@
       letter-spacing: -0.01em;
     }
     .brand span {
-      background: linear-gradient(135deg, var(--primary), var(--
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-list {
+      list-style: none;
+      padding: 1rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .nav-btn:hover {
+      background-color: #1f2937;
+      color: #fff;
+    }
+    .nav-btn.active {
+      background-color: rgba(59, 130, 246, 0.12);
+      border-color: rgba(59, 130, 246, 0.4);
+      color: var(--primary-light);
+      font-weight: 600;
+    }
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      background: var(--surface-border);
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    main {
+      flex: 1;
+      padding: 3rem 4rem;
+      max-width: 900px;
+      overflow-y: auto;
+    }
+    .content-section {
+      display: none;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+    .content-section.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--surface-border);
+      padding-bottom: 1.25rem;
+    }
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 1.75rem 0 0.75rem 0;
+      color: #e5e7eb;
+    }
+    p { margin-bottom: 1.25rem; color: #d1d5db; }
+    ul, ol {
+      margin-bottom: 1.5rem;
+      padding-left: 1.5rem;
+      color: #d1d5db;
+    }
+    li { margin-bottom: 0.5rem; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .code-box {
+      background-color: var(--code-bg);
+      border: 1px solid var(--surface-border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      color: #e2e8f0;
+      margin: 1rem 0 1.5rem 0;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+    .tag {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      background: rgba(59, 130, 246, 0.2);
+      color: var(--primary-light);
+    }
+    @media (max-width: 850px) {
+      body { flex-direction: column; }
+      aside { width: 100%; height: auto; position: static; }
+      main { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <aside>
+    <div class="brand">
+      <h1><span>⚡ Prompting</span> Portal</h1>
+    </div>
+    <ul class="nav-list">
+      <li><button class="nav-btn active" onclick="showModule('mod1', event)"><span class="badge">01</span> Introduction</button></li>
+      <li><button class="nav-btn" onclick="showModule('mod2', event)"><span class="badge">02</span> Understanding LLMs</button></li>
+      <li><button class="nav-btn" onclick="showModule('mod3', event)"><span class="badge">03</span> Chat Models</button></li>
+      <li><button class="nav-btn" onclick="showModule('mod4', event)"><span class="badge">04</span> Application Design</button></li>
+      <li><button class="nav-btn" onclick="showModule('mod5', event)"><span class="badge">05</span> Context & RAG</button></li>
+      <li><button class="nav-btn" onclick="showModule('mod6', event)"><span class="badge">06</span> Lab Workbook</button></li>
+    </ul>
+  </aside>
+
+  <main>
+    <!-- MODULE 1 -->
+    <section id="mod1" class="content-section active">
+      <span class="tag">01-introduction.md</span>
+      <h2>Introduction to Prompt Engineering</h2>
+      <p class="section-desc">Fundamental principles and core structures for guiding foundation models effectively.</p>
+      
+      <h3>What is Prompt Engineering?</h3>
+      <p>A language model naturally continues the information it receives. Prompt engineering is the practice of structuring that input so the continuation is useful, reliable, deterministic, and tailored to specific production requirements.</p>
+      
+      <div class="card">
+        <h3>Core Anatomy of an Effective Prompt</h3>
+        <ul>
+          <li><strong>Instruction:</strong> The primary directive or operation to perform (e.g., summarize, classify, extract).</li>
+          <li><strong>Context:</strong> Background framing, role specification, domain boundary, and audience level.</li>
+          <li><strong>Input Data:</strong> The raw text, document, or dataset subjected to processing.</li>
+          <li><strong>Output Indicator:</strong> Explicit formatting constraints (e.g., Markdown, JSON schema, concise bullet points).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- MODULE 2 -->
+    <section id="mod2" class="content-section">
+      <span class="tag">02-understanding-llms.md</span>
+      <h2>Understanding Large Language Models</h2>
+      <p class="section-desc">Probabilistic continuation, tokenization mechanisms, and inference controls.</p>
+      
+      <h3>How Foundation Models Operate</h3>
+      <p>Large Language Models are probabilistic next-token prediction engines. They do not maintain human-like reasoning or beliefs; they calculate likelihood distributions over token vocabularies conditioned on prior context.</p>
+
+      <div class="card">
+        <h3>Critical Inference Hyperparameters</h3>
+        <ul>
+          <li><strong>Temperature:</strong> Governs entropy in probability distributions. Low values (0.0 - 0.2) yield factual and deterministic outputs; higher values promote variability.</li>
+          <li><strong>Top-P (Nucleus Sampling):</strong> Truncates sampling to the smallest candidate set whose cumulative probability reaches threshold P.</li>
+          <li><strong>Context Window:</strong> The hard limit on the total number of tokens (input prompt + generated completion) an attention mechanism can evaluate simultaneously.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- MODULE 3 -->
+    <section id="mod3" class="content-section">
+      <span class="tag">03-chat-models.md</span>
+      <h2>Chat Models & Role Hierarchies</h2>
+      <p class="section-desc">Navigating System, User, and Assistant scopes in modern multi-turn APIs.</p>
+
+      <p>Modern chat interfaces enforce structure via conversation message payloads:</p>
+
+      <div class="code-box">[
+  {"role": "system", "content": "You are a senior systems engineer. Respond concisely with production-ready code."},
+  {"role": "user", "content": "How do I implement token bucket rate limiting?"},
+  {"role": "assistant", "content": "Here is an in-memory implementation using atomic counters..."}
+]</div>
+
+      <div class="card">
+        <h3>Role Distribution & Scope</h3>
+        <ul>
+          <li><strong>System:</strong> Establishes global guardrails, tone, output format contracts, and immutable boundary rules.</li>
+          <li><strong>User:</strong> Transmits runtime instructions, queries, and dynamic user inputs.</li>
+          <li><strong>Assistant:</strong> Retains dialog memory and previous model outputs across subsequent conversation turns.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- MODULE 4 -->
+    <section id="mod4" class="content-section">
+      <span class="tag">04-designing-llm-applications.md</span>
+      <h2>Designing Robust LLM Applications</h2>
+      <p class="section-desc">Few-Shot learning, Chain-of-Thought (CoT), and schema enforcement.</p>
+
+      <h3>Few-Shot Prompting</h3>
+      <p>Providing 2 to 4 exemplar input-output pairs inside the prompt drastically reduces ambiguity and conditions the model to output strict domain formats reliably.</p>
+
+      <h3>Chain-of-Thought (CoT) Prompting</h3>
+      <p>Directing models to generate intermediate reasoning paths (e.g., <em>"Think step by step"</em>) decomposes complex logical or mathematical tasks, significantly reducing hallucination rates.</p>
+
+      <div class="card">
+        <h3>Structured Outputs & Schema Conformance</h3>
+        <p>Production software requires predictable deserialization. Prompt designs must leverage JSON schemas with strict validation to ensure downstream pipeline stability.</p>
+      </div>
+    </section>
+
+    <!-- MODULE 5 -->
+    <section id="mod5" class="content-section">
+      <span class="tag">05-prompts-context-and-rag.md</span>
+      <h2>Context Injection & RAG Architectures</h2>
+      <p class="section-desc">Retrieval-Augmented Generation for grounded, factually anchored answers.</p>
+
+      <p>To overcome knowledge cutoffs and private domain opacity, Retrieval-Augmented Generation (RAG) grounds LLMs using external knowledge retrieval.</p>
+
+      <div class="card">
+        <h3>Standard RAG Pipeline Stages</h3>
+        <ol>
+          <li><strong>Chunking:</strong> Partition source documents into semantically coherent fragments.</li>
+          <li><strong>Embedding Generation:</strong> Vectorize text chunks into high-dimensional semantic spaces.</li>
+          <li><strong>Vector Retrieval:</strong> Query nearest neighbors using cosine similarity against user search intents.</li>
+          <li><strong>Augmentation:</strong> Inject retrieved chunks into the system/user context window prior to model completion.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- MODULE 6 -->
+    <section id="mod6" class="content-section">
+      <span class="tag">06-laboratory-workbook.md</span>
+      <h2>Laboratory & Evaluation Workbook</h2>
+      <p class="section-desc">Hands-on exercises, verification tasks, and empirical test harnesses.</p>
+
+      <div class="card">
+        <h3>Lab Exercise 1: Hallucination Stress-Test</h3>
+        <p>Prompt the model with a fictional entity. Implement defensive system instructions requiring the model to answer <em>"I do not possess sufficient verified records"</em> when confidence is below threshold.</p>
+      </div>
+
+      <div class="card">
+        <h3>Lab Exercise 2: Strict Information Extraction</h3>
+        <p>Extract entity metadata (dates, authors, key claims) from unstructured paragraphs and constrain the output to conform strictly to a validated JSON object.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function showModule(id, evt) {
+      document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      
+      const targetSec = document.getElementById(id);
+      if(targetSec) targetSec.classList.add('active');
+      
+      if(evt && evt.currentTarget) {
+        evt.currentTarget.classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>
