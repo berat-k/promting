@@ -172,13 +172,10 @@
       color: #fff;
     }
 
-    /* SIDEBAR CONTROLS (THEME & STEALTH) */
+    /* SIDEBAR CONTROLS */
     .sidebar-controls {
       padding: 1.5rem;
       border-top: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
     }
 
     .control-btn {
@@ -202,33 +199,6 @@
       border-color: var(--text-muted);
     }
 
-    .btn-stealth {
-      background: rgba(239, 68, 68, 0.1);
-      color: #ef4444;
-      border-color: rgba(239, 68, 68, 0.2);
-    }
-    .btn-stealth:hover {
-      background: #ef4444;
-      color: #fff;
-    }
-
-    /* STEALTH OVERLAY */
-    #stealthOverlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: #ffffff;
-      z-index: 9999;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-      color: #000;
-    }
-    #stealthOverlay h1 { font-size: 2rem; font-weight: normal; color: #555; }
-
     /* MAIN CONTENT AREA */
     .main-content {
       flex: 1;
@@ -244,6 +214,11 @@
 
     .chapter-view.active {
       display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* TYPOGRAPHY & CARDS */
@@ -493,6 +468,74 @@
       margin: 4px;
     }
 
+    /* QUIZ COMPONENT */
+    .quiz-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .quiz-question {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .quiz-opt-btn {
+      text-align: left;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 0.85rem 1.2rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quiz-opt-btn:hover {
+      background: var(--border-color);
+      color: var(--text-main);
+    }
+
+    .quiz-feedback {
+      margin-top: 1rem;
+      padding: 0.9rem 1.3rem;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      display: none;
+      font-weight: 600;
+      line-height: 1.6;
+    }
+
+    .quiz-feedback.correct {
+      display: block;
+      background: rgba(16, 185, 129, 0.15);
+      color: #059669;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    [data-theme="dark"] .quiz-feedback.correct { color: #6ee7b7; }
+
+    .quiz-feedback.incorrect {
+      display: block;
+      background: rgba(239, 68, 68, 0.15);
+      color: #dc2626;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
+    [data-theme="dark"] .quiz-feedback.incorrect { color: #fca5a5; }
+
     /* RESPONSIVE */
     .mobile-menu-btn {
       display: none;
@@ -524,11 +567,6 @@
 <body>
 
   <div id="progressBar"></div>
-
-  <!-- PRIVACY OVERLAY (STEALTH MODE) -->
-  <div id="stealthOverlay">
-    <h1>Loading...</h1>
-  </div>
 
   <!-- SIDEBAR NAVIGATION -->
   <aside class="sidebar">
@@ -564,9 +602,6 @@
     <div class="sidebar-controls">
       <button class="control-btn" onclick="toggleTheme()">
         <span id="themeIcon">☀️</span> Switch Theme
-      </button>
-      <button class="control-btn btn-stealth" onclick="toggleStealth()">
-        👁️ Stealth Mode (Esc)
       </button>
     </div>
   </aside>
@@ -1027,6 +1062,59 @@ Archetype: Text Proofreading
             </table>
           </div>
         </div>
+
+        <!-- RESTORED: COMPREHENSIVE QUIZ -->
+        <div class="interactive-panel">
+          <div class="panel-header">
+            <h4>🎓 Final Masterclass Knowledge Assessment</h4>
+            <span class="interactive-badge">Score: <span id="finalScore">0</span> / 4</span>
+          </div>
+
+          <!-- QUESTION 1 -->
+          <div class="quiz-card">
+            <div class="quiz-question">1. What fundamental bottleneck did the 2015 Attention mechanism resolve in early seq2seq models?</div>
+            <div class="quiz-options">
+              <button class="quiz-opt-btn" onclick="gradeFinal(1, false, 'Incorrect. Tokenization existed before attention.')">A) Inability to tokenize text sequences</button>
+              <button class="quiz-opt-btn" onclick="gradeFinal(1, true, 'Correct! Compressing an entire sequence into a single fixed thought vector lost critical details before decoding.')">B) Loss of details caused by compressing entire sequences into a single fixed vector</button>
+              <button class="quiz-opt-btn" onclick="gradeFinal(1, false, 'Incorrect. Causal masking is a feature of autoregressive decoders, not the bottleneck.')">C) Inability to prevent models from seeing future tokens</button>
+            </div>
+            <div class="quiz-feedback" id="qfb1"></div>
+          </div>
+
+          <!-- QUESTION 2 -->
+          <div class="quiz-card">
+            <div class="quiz-question">2. When Temperature (T) approaches 0.0 in the softmax equation, how does decoding behave?</div>
+            <div class="quiz-options">
+              <button class="quiz-opt-btn" onclick="gradeFinal(2, true, 'Correct! As T approaches 0, the softmax concentrates entirely on the highest logit token (greedy decoding).')">A) It approaches greedy selection, concentrating probability on the highest-scoring token</button>
+              <button class="quiz-opt-btn" onclick="gradeFinal(2, false, 'Incorrect. High temperatures flatten the curve, not low temperatures.')">B) It flattens the probability distribution, generating maximum entropy and hallucinations</button>
+              <button class="quiz-opt-btn" onclick="gradeFinal(2, false, 'Incorrect. Temperature does not alter the context window size.')">C) It automatically doubles the model context window</button>
+            </div>
+            <div class="quiz-feedback" id="qfb2"></div>
+          </div>
+
+          <!-- QUESTION 3 -->
+          <div class="quiz-card">
+            <div class="quiz-question">3. In a production tool-calling application, who actually executes the real API call?</div>
+            <div class="quiz-options">
+              <button class="quiz-opt-btn" onclick="gradeFinal(3, false, 'Incorrect. Language models are text predictors; they cannot independently dispatch HTTP calls.')">A) The language model neural network</button>
+              <button class="quiz-opt-btn" onclick="gradeFinal(3, true, 'Correct! The model proposes the structured request, but the surrounding software validates and executes the call.')">B) The surrounding application software</button>
+              <button class="quiz-opt-btn" onclick="gradeFinal(3, false, 'Incorrect. The user only views the final grounded reply.')">C) The end-user in their local browser</button>
+            </div>
+            <div class="quiz-feedback" id="qfb3"></div>
+          </div>
+
+          <!-- QUESTION 4 -->
+          <div class="quiz-card">
+            <div class="quiz-question">4. What does Jaccard similarity calculate between query terms A and document terms B?</div>
+            <div class="quiz-options">
+              <button class="quiz-opt-btn" onclick="gradeFinal(4, true, 'Correct! J(A,B) = |A ∩ B| / |A ∪ B| (size of intersection divided by size of union).')">A) The size of the intersection divided by the size of the union (|A ∩ B| / |A ∪ B|)</button>
+              <button class="quiz-opt-btn" onclick="gradeFinal(4, false, 'Incorrect. Dot product of normalized vectors is cosine similarity, not Jaccard.')">B) The dot product between two 1536-dimensional dense embedding vectors</button>
+              <button class="quiz-opt-btn" onclick="gradeFinal(4, false, 'Incorrect. Inverse document frequency is BM25/TF-IDF.')">C) The ratio of stop words removed during stemming</button>
+            </div>
+            <div class="quiz-feedback" id="qfb4"></div>
+          </div>
+        </div>
+
       </article>
     </section>
 
@@ -1054,19 +1142,6 @@ Archetype: Text Proofreading
       }
     }
 
-    /* STEALTH / PRIVACY MODE */
-    function toggleStealth() {
-      const overlay = document.getElementById("stealthOverlay");
-      overlay.style.display = overlay.style.display === "flex" ? "none" : "flex";
-    }
-    
-    // Global hotkey for stealth mode (Esc key)
-    document.addEventListener('keydown', function(event) {
-      if (event.key === "Escape") {
-        toggleStealth();
-      }
-    });
-
     /* MOBILE MENU TOGGLE */
     function toggleMobileMenu() {
       document.getElementById("navMenu").classList.toggle("open");
@@ -1083,7 +1158,6 @@ Archetype: Text Proofreading
       if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       
-      // Close mobile menu if open
       document.getElementById("navMenu").classList.remove("open");
     }
 
@@ -1289,6 +1363,24 @@ Archetype: Text Proofreading
       document.getElementById('scoreC').textContent = scoreC + " / 100";
     }
     updateToTMatrix(50);
+
+    /* FINAL QUIZ EVALUATOR */
+    let qDone = { 1: false, 2: false, 3: false, 4: false };
+    let finalScore = 0;
+
+    function gradeFinal(qId, isCorrect, msg) {
+      const fb = document.getElementById('qfb' + qId);
+      fb.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'incorrect');
+      fb.textContent = msg;
+
+      if (!qDone[qId]) {
+        qDone[qId] = true;
+        if (isCorrect) {
+          finalScore++;
+          document.getElementById('finalScore').textContent = finalScore;
+        }
+      }
+    }
   </script>
 </body>
 </html>
