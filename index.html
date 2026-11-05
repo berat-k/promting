@@ -3,118 +3,170 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PROMPTING / FIELD NOTES — Complete Interactive Masterclass</title>
+  <title>PROMPTING / FIELD NOTES — Interactive AI Engineering Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f4f6f4;
-      --card-bg: #ffffff;
-      --forest-dark: #0d332d;
-      --forest-mid: #164e45;
-      --forest-light: #236e62;
-      --forest-subtle: #e8f0ec;
-      --text-main: #182622;
-      --text-muted: #536660;
-      --border-subtle: #d5e2dc;
-      --code-bg: #091916;
-      --accent-gold: #b45309;
-      --accent-blue: #2563eb;
-      --accent-green: #059669;
+      --bg-main: #07090e;
+      --bg-card: rgba(15, 23, 42, 0.65);
+      --bg-card-hover: rgba(30, 41, 59, 0.8);
+      --border-card: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(16, 185, 129, 0.3);
+      --accent-emerald: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.15);
+      --accent-cyan: #06b6d4;
+      --accent-violet: #8b5cf6;
+      --accent-amber: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --code-bg: #030712;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: var(--bg);
+      background-color: var(--bg-main);
       color: var(--text-main);
       line-height: 1.7;
-      padding-bottom: 6rem;
+      padding-bottom: 8rem;
+      background-image: 
+        radial-gradient(circle at 15% 10%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.07) 0%, transparent 45%),
+        radial-gradient(circle at 50% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+      background-attachment: fixed;
     }
 
-    /* TOP HEADER & STICKY NAVIGATION */
+    /* READING PROGRESS BAR */
+    #progressBar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan), var(--accent-violet));
+      width: 0%;
+      z-index: 2000;
+      transition: width 0.1s ease;
+    }
+
+    /* HEADER & NAVIGATION */
     header {
-      max-width: 1240px;
+      max-width: 1300px;
       margin: 0 auto;
-      padding: 1.25rem 2rem;
+      padding: 1.2rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(13, 51, 45, 0.1);
       position: sticky;
       top: 0;
-      background: rgba(244, 246, 244, 0.95);
-      backdrop-filter: blur(12px);
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-card);
       z-index: 1000;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.85rem;
       text-decoration: none;
-      color: var(--forest-dark);
+      color: var(--text-main);
     }
 
-    .chapter-badge {
-      background-color: var(--forest-dark);
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 0.25rem 0.6rem;
-      border-radius: 6px;
-      letter-spacing: 0.05em;
-    }
-
-    .brand-title {
-      font-size: 0.9rem;
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
       font-weight: 800;
-      letter-spacing: 0.12em;
+      font-size: 1rem;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.35);
+    }
+
+    .brand-text h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
+      color: #fff;
+    }
+
+    .brand-text p {
+      font-size: 0.72rem;
+      color: var(--accent-emerald);
+      font-weight: 600;
+      letter-spacing: 0.05em;
     }
 
     .nav-chapters {
       display: flex;
-      gap: 0.35rem;
+      gap: 0.4rem;
       overflow-x: auto;
-      padding: 0.25rem 0;
+      padding: 0.3rem 0;
     }
 
     .chapter-tab {
-      background: transparent;
-      border: 1px solid transparent;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-card);
       color: var(--text-muted);
       font-size: 0.82rem;
       font-weight: 600;
-      padding: 0.45rem 0.85rem;
-      border-radius: 9999px;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .chapter-tab:hover {
-      background: rgba(13, 51, 45, 0.06);
-      color: var(--forest-dark);
+      background: rgba(255, 255, 255, 0.07);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.15);
     }
 
     .chapter-tab.active {
-      background-color: var(--forest-dark);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.2));
+      border-color: var(--accent-emerald);
       color: #fff;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+    }
+
+    .tab-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--accent-cyan);
+    }
+
+    .chapter-tab.active .tab-badge {
+      background: var(--accent-emerald);
+      color: #000;
+      font-weight: 700;
     }
 
     /* CONTAINER & VIEWS */
     .container {
-      max-width: 1240px;
-      margin: 3rem auto 0 auto;
+      max-width: 1300px;
+      margin: 2.5rem auto 0 auto;
       padding: 0 2rem;
     }
 
     .chapter-view {
       display: none;
-      animation: fadeIn 0.3s ease;
+      animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .chapter-view.active {
@@ -122,229 +174,267 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     /* HERO TWO-COLUMN GRID */
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 4rem;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3.5rem;
       align-items: start;
-      margin-bottom: 4rem;
+      margin-bottom: 3.5rem;
     }
 
-    .chapter-eyebrow {
-      font-size: 0.78rem;
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
       font-weight: 700;
-      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 1.25rem;
-      display: block;
-    }
-
-    h1.hero-heading {
-      font-family: 'Newsreader', serif;
-      font-size: 3.8rem;
-      line-height: 1.08;
-      font-weight: 600;
-      color: var(--forest-dark);
-      letter-spacing: -0.025em;
+      letter-spacing: 0.12em;
+      color: var(--accent-emerald);
+      background: rgba(16, 185, 129, 0.1);
+      padding: 0.35rem 0.8rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(16, 185, 129, 0.25);
       margin-bottom: 1.5rem;
     }
 
+    h1.hero-heading {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3.6rem;
+      line-height: 1.1;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #ffffff 60%, var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
     p.hero-lead {
-      font-size: 1.2rem;
+      font-size: 1.18rem;
       color: var(--text-muted);
-      line-height: 1.6;
+      line-height: 1.65;
       margin-bottom: 2rem;
-      max-width: 580px;
+      max-width: 620px;
     }
 
     .hero-actions {
       display: flex;
       align-items: center;
-      gap: 1.5rem;
+      gap: 1.25rem;
       flex-wrap: wrap;
     }
 
-    .btn-primary {
-      background-color: var(--forest-dark);
-      color: #fff;
+    .btn-action {
+      background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
+      color: #000;
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 0.85rem 1.6rem;
+      border-radius: 12px;
       text-decoration: none;
-      padding: 0.8rem 1.6rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      cursor: pointer;
+      gap: 0.6rem;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 25px rgba(16, 185, 129, 0.3);
       border: none;
-      transition: background-color 0.2s;
+      cursor: pointer;
     }
 
-    .btn-primary:hover {
-      background-color: var(--forest-mid);
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 30px rgba(16, 185, 129, 0.45);
     }
 
     .tagline-pills {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-dim);
     }
 
-    .editorial-card {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 2rem;
-      border: 1px solid var(--border-subtle);
-      box-shadow: 0 10px 30px rgba(13, 51, 45, 0.04);
+    /* EDITORIAL PREVIEW CARD */
+    .glass-preview-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(25px);
+      border: 1px solid var(--border-card);
+      border-radius: 24px;
+      padding: 2.2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .glass-preview-card::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
     }
 
     .card-label {
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--text-muted);
+      color: var(--accent-cyan);
       margin-bottom: 1.25rem;
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    .quote-box {
-      background: var(--forest-subtle);
-      border-radius: 12px;
-      padding: 1.5rem;
-      font-family: 'Newsreader', serif;
-      font-size: 1.35rem;
-      font-weight: 500;
-      color: var(--forest-dark);
-      line-height: 1.45;
+    .card-quote-box {
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid var(--accent-emerald);
+      border-radius: 0 12px 12px 0;
+      padding: 1.25rem 1.5rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      color: #fff;
       margin-bottom: 1.25rem;
+      line-height: 1.5;
     }
 
-    /* READING ARTICLE CONTENT */
+    /* READING CONTENT ARTICLE */
     .reading-content {
-      background: var(--card-bg);
-      border: 1px solid var(--border-subtle);
-      border-radius: 24px;
-      padding: 4rem;
-      max-width: 1000px;
+      background: var(--bg-card);
+      backdrop-filter: blur(25px);
+      border: 1px solid var(--border-card);
+      border-radius: 28px;
+      padding: 4.5rem;
+      max-width: 1040px;
       margin: 0 auto;
-      box-shadow: 0 12px 35px rgba(13, 51, 45, 0.03);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
     }
 
     .reading-content h2 {
-      font-family: 'Newsreader', serif;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 2.5rem;
-      font-weight: 600;
-      color: var(--forest-dark);
-      margin-bottom: 1.25rem;
-      letter-spacing: -0.015em;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
     }
 
     .reading-content h3 {
-      font-family: 'Newsreader', serif;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1.7rem;
       font-weight: 600;
-      color: var(--forest-dark);
-      margin: 3rem 0 1rem 0;
-      border-top: 1px solid rgba(13, 51, 45, 0.08);
-      padding-top: 2rem;
-    }
-
-    .reading-content h4 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--forest-mid);
-      margin: 1.75rem 0 0.5rem 0;
+      color: #f1f5f9;
+      margin: 3.5rem 0 1.25rem 0;
+      border-top: 1px solid var(--border-card);
+      padding-top: 2.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
     }
 
     .reading-content p {
-      font-size: 1.05rem;
-      color: #31423d;
-      margin-bottom: 1.4rem;
-      line-height: 1.8;
+      font-size: 1.08rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.85;
     }
 
     .reading-content ul, .reading-content ol {
-      margin-bottom: 1.75rem;
-      padding-left: 1.75rem;
-      color: #31423d;
+      margin-bottom: 2rem;
+      padding-left: 1.8rem;
+      color: var(--text-muted);
     }
 
     .reading-content li {
-      margin-bottom: 0.75rem;
-      line-height: 1.75;
-      font-size: 1.02rem;
+      margin-bottom: 0.85rem;
+      line-height: 1.8;
+      font-size: 1.04rem;
     }
 
     .reading-content strong {
-      color: var(--forest-dark);
+      color: #fff;
     }
 
     .callout {
-      background-color: var(--forest-subtle);
-      border-left: 4px solid var(--forest-dark);
-      border-radius: 0 10px 10px 0;
-      padding: 1.25rem 1.5rem;
-      margin: 1.75rem 0;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(6, 182, 212, 0.05));
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 16px;
+      padding: 1.5rem 1.8rem;
+      margin: 2rem 0;
+      position: relative;
     }
 
     .callout p {
       margin-bottom: 0;
-      font-size: 1rem;
-      color: var(--forest-dark);
+      font-size: 1.05rem;
+      color: #e2e8f0;
     }
 
     /* DATA TABLES */
+    .content-table-wrapper {
+      overflow-x: auto;
+      margin: 2.2rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border-card);
+    }
+
     .content-table {
       width: 100%;
       border-collapse: collapse;
-      margin: 2rem 0;
       font-size: 0.95rem;
+      background: rgba(10, 15, 29, 0.7);
     }
 
     .content-table th, .content-table td {
-      border: 1px solid var(--border-subtle);
-      padding: 0.85rem 1.15rem;
+      padding: 1rem 1.25rem;
       text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .content-table th {
-      background-color: var(--forest-subtle);
-      color: var(--forest-dark);
+      background: rgba(255, 255, 255, 0.04);
+      color: #fff;
       font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: 0.03em;
     }
 
-    .content-table tr:nth-child(even) {
-      background-color: #fafcfb;
+    .content-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
     }
 
     /* CODE BOXES */
     .code-block {
       background-color: var(--code-bg);
-      color: #d8f5ec;
+      color: #a7f3d0;
       font-family: 'JetBrains Mono', monospace;
-      padding: 1.25rem 1.5rem;
-      border-radius: 10px;
+      padding: 1.4rem 1.6rem;
+      border-radius: 14px;
       font-size: 0.88rem;
       overflow-x: auto;
-      margin: 1.5rem 0 2rem 0;
-      line-height: 1.6;
+      margin: 1.8rem 0;
+      line-height: 1.65;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
     }
 
-    /* INTERACTIVE LAB / COMPONENT BOX */
+    /* INTERACTIVE WIDGET PANEL */
     .interactive-panel {
-      background: #fafdfb;
-      border: 2px solid #cfe0d8;
-      border-radius: 16px;
-      padding: 2rem;
-      margin: 2.5rem 0;
-      box-shadow: 0 6px 20px rgba(13, 51, 45, 0.03);
+      background: linear-gradient(145deg, rgba(17, 24, 39, 0.9), rgba(10, 15, 26, 0.95));
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 20px;
+      padding: 2.2rem;
+      margin: 3rem 0;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4), 0 0 30px rgba(16, 185, 129, 0.08);
+      position: relative;
     }
 
     .panel-header {
@@ -353,87 +443,95 @@
       justify-content: space-between;
       margin-bottom: 1.5rem;
       padding-bottom: 1rem;
-      border-bottom: 1px solid #dbe7e1;
+      border-bottom: 1px solid var(--border-card);
     }
 
     .panel-header h4 {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--forest-dark);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      gap: 0.6rem;
     }
 
     .interactive-badge {
-      background: var(--forest-dark);
-      color: #fff;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
+      background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
+      color: #000;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
       text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     .tab-pills {
       display: flex;
       gap: 0.5rem;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.4rem;
       flex-wrap: wrap;
     }
 
     .pill-btn {
-      background: #fff;
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      padding: 0.55rem 1.1rem;
       font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--forest-dark);
+      font-weight: 600;
+      color: var(--text-muted);
       cursor: pointer;
       transition: all 0.2s;
     }
 
-    .pill-btn.active {
-      background: var(--forest-dark);
+    .pill-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
       color: #fff;
-      border-color: var(--forest-dark);
+    }
+
+    .pill-btn.active {
+      background: var(--accent-emerald);
+      color: #000;
+      font-weight: 700;
+      border-color: var(--accent-emerald);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.35);
     }
 
     .output-screen {
       background: var(--code-bg);
-      color: #c7eee1;
+      color: #e2e8f0;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem;
-      padding: 1.25rem;
-      border-radius: 10px;
-      min-height: 90px;
-      line-height: 1.6;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.92rem;
+      padding: 1.4rem;
+      border-radius: 12px;
+      min-height: 100px;
+      line-height: 1.7;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       position: relative;
+      white-space: pre-wrap;
     }
 
     /* SLIDERS & CONTROLS */
     .control-row {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.6rem;
     }
 
     .control-label {
       display: flex;
       justify-content: space-between;
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--forest-dark);
-      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.6rem;
     }
 
     .slider-input {
       width: 100%;
-      height: 7px;
-      border-radius: 5px;
-      background: #c6d9d0;
+      height: 8px;
+      border-radius: 6px;
+      background: #1e293b;
       outline: none;
       -webkit-appearance: none;
       cursor: pointer;
@@ -445,113 +543,129 @@
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: var(--forest-dark);
+      background: var(--accent-emerald);
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.8);
+      border: 2px solid #fff;
     }
 
     .token-display {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 8px;
       margin-top: 1rem;
     }
 
     .token-chip {
-      padding: 0.3rem 0.6rem;
-      border-radius: 6px;
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       font-weight: 600;
-      background: #e1efe8;
-      color: var(--forest-dark);
-      border: 1px solid #bcd4c8;
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      animation: popIn 0.2s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
     /* QUIZ COMPONENT */
     .quiz-card {
-      background: #fff;
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 1.5rem;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border-card);
+      border-radius: 14px;
+      padding: 1.6rem;
       margin-bottom: 1.5rem;
     }
 
     .quiz-question {
+      font-family: 'Space Grotesk', sans-serif;
       font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--forest-dark);
+      font-size: 1.1rem;
+      color: #fff;
       margin-bottom: 1rem;
     }
 
     .quiz-options {
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 0.65rem;
     }
 
     .quiz-opt-btn {
       text-align: left;
-      background: #fbfdfc;
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
-      font-size: 0.92rem;
-      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      padding: 0.85rem 1.2rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
       cursor: pointer;
       transition: all 0.2s;
     }
 
     .quiz-opt-btn:hover {
-      background: var(--forest-subtle);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.2);
     }
 
     .quiz-feedback {
       margin-top: 1rem;
-      padding: 0.85rem 1.25rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
+      padding: 0.9rem 1.3rem;
+      border-radius: 10px;
+      font-size: 0.92rem;
       display: none;
       font-weight: 600;
+      line-height: 1.6;
     }
 
     .quiz-feedback.correct {
       display: block;
-      background: #d1fae5;
-      color: #065f46;
-      border: 1px solid #a7f3d0;
+      background: rgba(16, 185, 129, 0.15);
+      color: #6ee7b7;
+      border: 1px solid rgba(16, 185, 129, 0.4);
     }
 
     .quiz-feedback.incorrect {
       display: block;
-      background: #fee2e2;
-      color: #991b1b;
-      border: 1px solid #fecaca;
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.4);
     }
 
     @media (max-width: 900px) {
       .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      h1.hero-heading { font-size: 2.8rem; }
-      .reading-content { padding: 2rem 1.5rem; }
+      h1.hero-heading { font-size: 2.6rem; }
+      .reading-content { padding: 2.2rem 1.5rem; }
       header { flex-direction: column; gap: 1rem; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
 
-  <!-- STICKY TOP BAR -->
+  <div id="progressBar"></div>
+
+  <!-- HEADER -->
   <header>
     <a href="#" class="brand">
-      <span class="chapter-badge">01</span>
-      <span class="brand-title">Prompting / Field Notes</span>
+      <div class="brand-icon">⚡</div>
+      <div class="brand-text">
+        <h1>PROMPTING / FIELD NOTES</h1>
+        <p>AUTONOMOUS ENGINEERING PORTAL</p>
+      </div>
     </a>
     <nav class="nav-chapters">
-      <button class="chapter-tab active" onclick="switchChapter('ch1', event, '01')">01 Intro</button>
-      <button class="chapter-tab" onclick="switchChapter('ch2', event, '02')">02 Understanding LLMs</button>
-      <button class="chapter-tab" onclick="switchChapter('ch3', event, '03')">03 Chat Models</button>
-      <button class="chapter-tab" onclick="switchChapter('ch4', event, '04')">04 App Design</button>
-      <button class="chapter-tab" onclick="switchChapter('ch5', event, '05')">05 Context & RAG</button>
-      <button class="chapter-tab" onclick="switchChapter('ch6', event, '06')">06 Laboratory</button>
+      <button class="chapter-tab active" onclick="switchChapter('ch1', event)"><span class="tab-badge">01</span> Intro</button>
+      <button class="chapter-tab" onclick="switchChapter('ch2', event)"><span class="tab-badge">02</span> LLM Internals</button>
+      <button class="chapter-tab" onclick="switchChapter('ch3', event)"><span class="tab-badge">03</span> Chat & Tools</button>
+      <button class="chapter-tab" onclick="switchChapter('ch4', event)"><span class="tab-badge">04</span> App Architecture</button>
+      <button class="chapter-tab" onclick="switchChapter('ch5', event)"><span class="tab-badge">05</span> Context & RAG</button>
+      <button class="chapter-tab" onclick="switchChapter('ch6', event)"><span class="tab-badge">06</span> Lab Workbook</button>
     </nav>
   </header>
 
@@ -561,33 +675,32 @@
     <section id="ch1" class="chapter-view active">
       <div class="hero-grid">
         <div>
-          <span class="chapter-eyebrow">— Chapter 01 · Approximately 10 minutes</span>
+          <span class="eyebrow">Chapter 01 · ~10 mins reading</span>
           <h1 class="hero-heading">Introduction to prompt engineering.</h1>
           <p class="hero-lead">A language model produces a continuation of the information it receives. Prompt engineering is the practice of making that continuation useful, relevant, and reliable.</p>
           <div class="hero-actions">
-            <a href="#read-ch1" class="btn-primary">Start reading ↓</a>
-            <span class="tagline-pills">History · Attention · Transformers · Role of a Prompt</span>
+            <a href="#read-ch1" class="btn-action">Explore Deep Notes ↓</a>
+            <span class="tagline-pills">History · Attention · Transformers · Anatomy</span>
           </div>
         </div>
 
-        <div class="editorial-card">
-          <span class="card-label">One Opening, Many Continuations</span>
-          <div class="quote-box">“The most important discovery of the experiment was...”</div>
-          <div style="display:flex; flex-direction:column; gap:0.6rem; margin-bottom:1.5rem;">
-            <div style="background:#fafcfb; border:1px solid #d5e2dc; padding:0.75rem 1rem; border-radius:8px; font-size:0.88rem;">
-              <span style="font-size:0.7rem; font-weight:800; background:#e8f0ec; padding:0.15rem 0.45rem; border-radius:4px; color:#0d332d;">REPORT</span>
-              <span> ...a measurable change in the observed samples.</span>
+        <div class="glass-preview-card">
+          <span class="card-label">⚡ The Continuation Principle</span>
+          <div class="card-quote-box">“The most important discovery of the experiment was...”</div>
+          <div style="display:flex; flex-direction:column; gap:0.65rem;">
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-card); padding:0.8rem 1rem; border-radius:10px; font-size:0.9rem;">
+              <span style="font-size:0.72rem; font-weight:800; background:rgba(16,185,129,0.2); color:var(--accent-emerald); padding:0.2rem 0.5rem; border-radius:4px; margin-right:0.5rem;">REPORT</span>
+              ...a measurable change in the observed samples.
             </div>
-            <div style="background:#fafcfb; border:1px solid #d5e2dc; padding:0.75rem 1rem; border-radius:8px; font-size:0.88rem;">
-              <span style="font-size:0.7rem; font-weight:800; background:#e8f0ec; padding:0.15rem 0.45rem; border-radius:4px; color:#0d332d;">STORY</span>
-              <span> ...hidden behind the locked laboratory door.</span>
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-card); padding:0.8rem 1rem; border-radius:10px; font-size:0.9rem;">
+              <span style="font-size:0.72rem; font-weight:800; background:rgba(6,182,212,0.2); color:var(--accent-cyan); padding:0.2rem 0.5rem; border-radius:4px; margin-right:0.5rem;">STORY</span>
+              ...hidden behind the locked laboratory door.
             </div>
-            <div style="background:#fafcfb; border:1px solid #d5e2dc; padding:0.75rem 1rem; border-radius:8px; font-size:0.88rem;">
-              <span style="font-size:0.7rem; font-weight:800; background:#e8f0ec; padding:0.15rem 0.45rem; border-radius:4px; color:#0d332d;">SUMMARY</span>
-              <span> ...that the first hypothesis did not hold.</span>
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-card); padding:0.8rem 1rem; border-radius:10px; font-size:0.9rem;">
+              <span style="font-size:0.72rem; font-weight:800; background:rgba(139,92,246,0.2); color:var(--accent-violet); padding:0.2rem 0.5rem; border-radius:4px; margin-right:0.5rem;">SUMMARY</span>
+              ...that the first hypothesis did not hold.
             </div>
           </div>
-          <p style="font-size:0.78rem; color:#536660;">Illustrative examples · Context changes what comes next.</p>
         </div>
       </div>
 
@@ -598,16 +711,16 @@
         </div>
 
         <h3>The Central Question</h3>
-        <p>Imagine giving a language model the words: <em>"The most important discovery of the experiment was…"</em>. Many continuations are possible. The model could finish a scientific report, invent a dramatic story, or produce a short summary. <strong>The words surrounding the request determine which kind of continuation is likely.</strong></p>
-        <p>That is the starting point of prompt engineering: designing the instructions, examples, and context so that the model's output serves a particular purpose. In an application, prompt engineering also means deciding what information to retrieve, how to structure a conversation, and what to do with the result.</p>
+        <p>Imagine giving a language model the words: <em>“The most important discovery of the experiment was…”</em>. Many continuations are possible. The model could finish a scientific report, invent a dramatic story, or produce a short summary. <strong>The words surrounding the request determine which kind of continuation is likely.</strong></p>
+        <p>That is the starting point of prompt engineering: designing the instructions, examples, and context so that the model's output serves a particular purpose. It is not simply the art of asking a clever question. In an application, prompt engineering also means deciding <strong>what information to retrieve, how to structure a conversation, and what to do with the result</strong>.</p>
 
         <!-- INTERACTIVE ATTENTION WEIGHT EXPLORER -->
         <div class="interactive-panel">
           <div class="panel-header">
-            <h4>⚡ Interactive Attention Mechanism Visualizer</h4>
-            <span class="interactive-badge">Try It Live</span>
+            <h4>⚡ Interactive Attention Weight Visualizer</h4>
+            <span class="interactive-badge">Live Mechanism</span>
           </div>
-          <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:1rem;">Click each source word to see how dynamic attention weights shift when translating <em>"The scientist opened the laboratory door"</em>:</p>
+          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;">Click each source word to see how dynamic attention weights shift when translating <em>"The scientist opened the laboratory door"</em>:</p>
           <div class="tab-pills" id="attentionWordPills">
             <button class="pill-btn active" onclick="visualizeAttention('The')">The</button>
             <button class="pill-btn" onclick="visualizeAttention('scientist')">scientist</button>
@@ -623,111 +736,116 @@ Attention Distribution:
 - [opened]: 1%
 - [laboratory]: 0.5%
 - [door]: 0.5%
-Explanation: The decoder places highest attention weight on the source determiner to establish gender/grammatical alignment.
+Explanation: The decoder places highest attention weight on the source determiner to establish gender/number alignment.
           </div>
         </div>
 
         <h3>1. How Did We Get Here?</h3>
-        <p>The path from early language models to conversational assistants is a sequence of solutions to information-processing bottlenecks:</p>
-        
-        <table class="content-table">
-          <thead>
-            <tr>
-              <th>Era</th>
-              <th>Key development</th>
-              <th>What changed?</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>1940s onward</strong></td>
-              <td>Statistical language models & Markov approaches</td>
-              <td>Predict text from a strictly limited preceding context.</td>
-            </tr>
-            <tr>
-              <td><strong>2014</strong></td>
-              <td>Sequence-to-sequence (seq2seq) models</td>
-              <td>Translate or transform sequences using an encoder and decoder.</td>
-            </tr>
-            <tr>
-              <td><strong>2015</strong></td>
-              <td>Attention in neural sequence models</td>
-              <td>Allow a decoder to access relevant portions of input rather than relying on one compressed vector.</td>
-            </tr>
-            <tr>
-              <td><strong>2017</strong></td>
-              <td>The Transformer architecture</td>
-              <td>Use attention as the central mechanism for representing relationships across sequences.</td>
-            </tr>
-            <tr>
-              <td><strong>2018</strong></td>
-              <td>GPT: Generative Pre-trained Transformer</td>
-              <td>Pretrain a transformer text generator, then adapt it to useful downstream tasks.</td>
-            </tr>
-            <tr>
-              <td><strong>GPT-2 → GPT-3 → GPT-4</strong></td>
-              <td>Increasingly capable language models</td>
-              <td>Prompting becomes an important way to perform tasks without retraining models for each one.</td>
-            </tr>
-          </tbody>
-        </table>
+        <p>The path from early language models to conversational assistants can be understood as a sequence of solutions to information-processing problems:</p>
+
+        <div class="content-table-wrapper">
+          <table class="content-table">
+            <thead>
+              <tr>
+                <th>Era</th>
+                <th>Key development</th>
+                <th>What changed?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1940s onward</strong></td>
+                <td>Statistical language models and Markov approaches</td>
+                <td>Predict text from a limited preceding context.</td>
+              </tr>
+              <tr>
+                <td><strong>2014</strong></td>
+                <td>Sequence-to-sequence (seq2seq) models</td>
+                <td>Translate or transform one sequence into another with an encoder and decoder.</td>
+              </tr>
+              <tr>
+                <td><strong>2015</strong></td>
+                <td>Attention in neural sequence models</td>
+                <td>Allow a decoder to access relevant portions of the input rather than relying on one compressed vector.</td>
+              </tr>
+              <tr>
+                <td><strong>2017</strong></td>
+                <td>The Transformer architecture</td>
+                <td>Use attention as the central mechanism for representing relationships within a sequence.</td>
+              </tr>
+              <tr>
+                <td><strong>2018</strong></td>
+                <td>GPT: Generative Pre-trained Transformer</td>
+                <td>Pretrain a transformer-based text generator, then adapt it to useful tasks.</td>
+              </tr>
+              <tr>
+                <td><strong>GPT-2 → GPT-3 → GPT-4</strong></td>
+                <td>Increasingly capable language models</td>
+                <td>Prompting becomes an important way to perform tasks without training a new model for each one.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div class="callout">
-          <p><strong>Remember:</strong> The transformation was not from “predicting words” to an entirely different principle. It was from <em>simple predictions with limited context</em> to <strong>powerful context-sensitive prediction</strong>.</p>
+          <p><strong>Remember:</strong> The transformation was not from “predicting words” to an entirely different principle. It was from <strong>simple predictions with limited context</strong> to <strong>powerful context-sensitive prediction</strong>.</p>
         </div>
 
         <h3>2. The Original Challenge: A Sentence is Not a Single Vector</h3>
-        <p>Early seq2seq translation relied on an encoder compressing an entire sentence into a fixed-size <em>thought vector</em>, which a decoder used to generate output. <strong>The bottleneck:</strong> compressing long paragraphs into one vector lost crucial qualifications, names, and grammatical links.</p>
+        <p>An early seq2seq translation model had two main components: an encoder that compressed the source sentence into a single <em>thought vector</em>, and a decoder that generated the translated tokens. This created an information bottleneck where details were lost on long sequences.</p>
 
-        <table class="content-table">
-          <thead>
-            <tr>
-              <th>Without attention</th>
-              <th>With attention</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>One summary vector carries all input information.</td>
-              <td>Decoder consults a collection of source representations.</td>
-            </tr>
-            <tr>
-              <td>Details disappear in long sequences.</td>
-              <td>Different source words become important at different output steps.</td>
-            </tr>
-            <tr>
-              <td>A narrow information bottleneck.</td>
-              <td>Flexible, dynamic access to context.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="content-table-wrapper">
+          <table class="content-table">
+            <thead>
+              <tr>
+                <th>Without attention</th>
+                <th>With attention</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>One summary must carry most input information.</td>
+                <td>The decoder can consult a collection of source representations.</td>
+              </tr>
+              <tr>
+                <td>Details can disappear in long sequences.</td>
+                <td>Different source words can become important at different output steps.</td>
+              </tr>
+              <tr>
+                <td>A narrow information bottleneck.</td>
+                <td>More flexible access to context.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <!-- INTERACTIVE PROMPT INSPECTOR (VAGUE VS DESIGNED) -->
+        <!-- INTERACTIVE VAGUE VS DESIGNED PROMPT INSPECTOR -->
         <div class="interactive-panel">
           <div class="panel-header">
             <h4>🔬 Vague vs. Designed Prompt Comparator</h4>
-            <span class="interactive-badge">Inspector</span>
+            <span class="interactive-badge">Architectural Tool</span>
           </div>
           <div class="tab-pills">
             <button class="pill-btn active" onclick="comparePromptCh1('vague')">View Vague Prompt</button>
-            <button class="pill-btn" onclick="comparePromptCh1('designed')">View Designed Operational Prompt</button>
+            <button class="pill-btn" onclick="comparePromptCh1('designed')">View Designed Prompt</button>
           </div>
-          <div class="output-screen" id="promptCompareScreenCh1" style="white-space:pre-wrap;">
+          <div class="output-screen" id="promptCompareScreenCh1">
 Prompt: "Explain transformers."
 
-Result Evaluation:
-- Audience: Unspecified (risk of being either too childish or excessively mathematical)
-- Scope: Unbounded (model might write 2,000 words on unrelated neural history)
-- Format: Unstructured prose
+Deficiencies:
+- Audience: Unspecified (risk of being either too basic or overly mathematical)
+- Scope & Sequence: Unbounded
+- Format: Unconstrained prose
 - Constraints: None
+Result: Plausible but completely unpredictable completion.
           </div>
         </div>
 
         <h3>3. The Three Limitations Worth Remembering</h3>
         <ul>
-          <li><strong>A language model is not automatically a search engine.</strong> It can produce plausible text without having retrieved or verified a source.</li>
-          <li><strong>Context is finite.</strong> A model processes only the content available within its context window. Selecting and compressing information is an engineering decision.</li>
-          <li><strong>Fluent does not mean correct.</strong> A well-written explanation can still contain factual or logical errors. Verification matters most when errors have consequences.</li>
+          <li><strong>A language model is not automatically a search engine:</strong> It can produce plausible text without having retrieved or verified a source.</li>
+          <li><strong>Context is finite:</strong> A model processes only the content available to it within its supported context limit.</li>
+          <li><strong>Fluent does not mean correct:</strong> A well-written explanation can still contain factual or logical errors. Verification matters most when errors have consequences.</li>
         </ul>
       </article>
     </section>
@@ -736,86 +854,81 @@ Result Evaluation:
     <section id="ch2" class="chapter-view">
       <div class="hero-grid">
         <div>
-          <span class="chapter-eyebrow">— Chapter 02 · Approximately 17 minutes</span>
+          <span class="eyebrow">Chapter 02 · ~17 mins reading</span>
           <h1 class="hero-heading">Understanding how language models work.</h1>
           <p class="hero-lead">To use a language model well, understand what it actually processes: tokens, probability distributions, and context.</p>
           <div class="hero-actions">
-            <a href="#read-ch2" class="btn-primary">Start reading ↓</a>
+            <a href="#read-ch2" class="btn-action">Explore Deep Notes ↓</a>
             <span class="tagline-pills">Tokenization · Generation · Temperature · Attention · Hallucinations</span>
           </div>
         </div>
 
-        <div class="editorial-card">
-          <span class="card-label">Generation Mechanism</span>
-          <div class="quote-box">Input ➔ Tokenizer ➔ Transformer ➔ Logits ➔ Softmax ➔ Sample ➔ Append</div>
-          <p style="font-size:0.82rem; color:var(--text-muted);">Nothing in this loop guarantees truth. The model learns statistical and semantic patterns to generate the next token.</p>
+        <div class="glass-preview-card">
+          <span class="card-label">⚡ Decoding Math</span>
+          <div class="card-quote-box">p_i(T) = exp(z_i/T) / ∑ exp(z_j/T)</div>
+          <p style="font-size:0.92rem; color:var(--text-muted);">Temperature dictates entropy. Low temperature makes an answer more predictable, but never guarantees truth.</p>
         </div>
       </div>
 
       <article id="read-ch2" class="reading-content">
         <h2>Field Notes: 02 · Tokens, Probability Distributions, and Context</h2>
         <div class="callout">
-          <p><strong>Big Idea:</strong> Tokens are not words. Probabilities are not facts. Fluency is not verification. Understanding these three distinctions makes prompt engineering predictable.</p>
+          <p><strong>Big Idea:</strong> Tokens are not words. Probabilities are not facts. Fluency is not verification. Understanding these three ideas makes prompt behavior predictable.</p>
         </div>
 
-        <!-- INTERACTIVE TEMPERATURE & LOGIT SOFTMAX SIMULATOR -->
+        <!-- INTERACTIVE TEMPERATURE & SOFTMAX SIMULATOR -->
         <div class="interactive-panel">
           <div class="panel-header">
-            <h4>🎛️ Interactive Temperature & Softmax Explorer</h4>
+            <h4>🎛️ Interactive Temperature & Softmax Simulator</h4>
             <span class="interactive-badge">Live Math</span>
           </div>
-          <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:1rem;">Adjust temperature ($T$) to observe the mathematical formula $p_i(T) = \frac{\exp(z_i/T)}{\sum_j \exp(z_j/T)}$ reshape candidate probabilities in real time:</p>
+          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1.25rem;">Adjust the temperature slider below to see how logits `[mat: 3.5, sofa: 2.8, floor: 2.0, moon: 0.8]` are converted into sampling probabilities:</p>
           <div class="control-row">
             <div class="control-label">
-              <span>Temperature ($T$): <strong id="tempDisplayCh2">0.20</strong></span>
-              <span id="tempCategoryCh2" style="font-weight:700; color:var(--forest-dark);">Factual / Deterministic</span>
+              <span>Temperature ($T$): <strong id="tempDisplayCh2" style="color:var(--accent-emerald);">0.20</strong></span>
+              <span id="tempCategoryCh2" style="color:var(--accent-cyan); font-weight:700;">Deterministic / Factual</span>
             </div>
             <input type="range" min="1" max="180" value="20" class="slider-input" id="sliderTempCh2" oninput="runTemperatureSoftmax(this.value)">
           </div>
-
-          <p style="font-size:0.85rem; font-weight:700; color:var(--forest-dark); margin-bottom:0.5rem;">Logits: [mat: 3.5, sofa: 2.8, floor: 2.0, moon: 0.8]</p>
           <div class="output-screen" id="softmaxProbScreen">
-p(mat)   : 65.4% [█████████████████████████]
-p(sofa)  : 23.8% [█████████]
-p(floor) :  8.7% [███]
-p(moon)  :  2.1% [█]
-
-Sampling Heuristic: Highly predictable greedy-like selection. Factual extraction setting.
+Calculating probabilities...
           </div>
         </div>
 
-        <h3>Temperature Guidelines</h3>
-        <table class="content-table">
-          <thead>
-            <tr>
-              <th>Task</th>
-              <th>Teaching heuristic</th>
-              <th>Trade-off</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Factual extraction, concise summaries</td>
-              <td><strong>0.0 – 0.3</strong></td>
-              <td>More stable phrasing; not a guarantee of truth.</td>
-            </tr>
-            <tr>
-              <td>Ordinary writing and dialogue</td>
-              <td><strong>0.5 – 0.8</strong></td>
-              <td>More variation in wording and tone.</td>
-            </tr>
-            <tr>
-              <td>Creative ideas and storytelling</td>
-              <td><strong>0.9 – 1.3</strong></td>
-              <td>More variety, with greater risk of incoherence.</td>
-            </tr>
-            <tr>
-              <td>Experimental generation</td>
-              <td><strong>Above 1.3</strong></td>
-              <td>Highly variable and often unstable.</td>
-            </tr>
-          </tbody>
-        </table>
+        <h3>Temperature Heuristics</h3>
+        <div class="content-table-wrapper">
+          <table class="content-table">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Typical heuristic</th>
+                <th>Trade-off</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Factual extraction, concise summaries</td>
+                <td><strong>0.0 – 0.3</strong></td>
+                <td>More stable phrasing; not a guarantee of truth.</td>
+              </tr>
+              <tr>
+                <td>Ordinary writing and dialogue</td>
+                <td><strong>0.5 – 0.8</strong></td>
+                <td>More variation in wording and tone.</td>
+              </tr>
+              <tr>
+                <td>Creative ideas and storytelling</td>
+                <td><strong>0.9 – 1.3</strong></td>
+                <td>More variety, with greater risk of incoherence.</td>
+              </tr>
+              <tr>
+                <td>Experimental generation</td>
+                <td><strong>Above 1.3</strong></td>
+                <td>Highly variable and often unstable.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <!-- INTERACTIVE TOKENIZER SANDBOX -->
         <div class="interactive-panel">
@@ -823,24 +936,25 @@ Sampling Heuristic: Highly predictable greedy-like selection. Factual extraction
             <h4>🔡 Interactive Tokenizer & Subword Sandbox</h4>
             <span class="interactive-badge">Live Tokenizer</span>
           </div>
-          <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:0.75rem;">Type text below to inspect subword segmentation, character count, and token overhead:</p>
-          <input type="text" id="liveTokenizerInput" value="Yesterday, my TV stopped working. Now I can't turn it on at all." style="width:100%; padding:0.8rem 1rem; border:1px solid var(--border-subtle); border-radius:8px; font-family:'JetBrains Mono', monospace; font-size:0.95rem;" oninput="tokenizeLive(this.value)">
+          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:0.85rem;">Type text below to inspect subword segmentation, character count, and token overhead:</p>
+          <input type="text" id="liveTokenizerInput" value="Yesterday, my TV stopped working. Now I can't turn it on at all." style="width:100%; padding:0.85rem 1.2rem; background:var(--code-bg); color:#fff; border:1px solid var(--border-card); border-radius:10px; font-family:'JetBrains Mono', monospace; font-size:0.95rem;" oninput="tokenizeLive(this.value)">
           <div class="token-display" id="liveTokenChips"></div>
-          <div style="margin-top:1rem; display:flex; gap:1.5rem; font-size:0.88rem; font-weight:700; color:var(--forest-dark);">
-            <div>Tokens: <span id="tokCountDisplay" style="color:var(--accent-gold);">17</span></div>
-            <div>Characters: <span id="charCountDisplay">64</span></div>
-            <div>Avg Chars/Token: <span id="ratioDisplay">3.8</span></div>
+          <div style="margin-top:1.25rem; display:flex; gap:2rem; font-size:0.9rem; font-weight:700; color:var(--text-muted);">
+            <div>Tokens: <span id="tokCountDisplay" style="color:var(--accent-emerald);">17</span></div>
+            <div>Characters: <span id="charCountDisplay" style="color:#fff;">64</span></div>
+            <div>Avg Chars/Token: <span id="ratioDisplay" style="color:var(--accent-cyan);">3.8</span></div>
           </div>
         </div>
 
-        <h3>Self-Attention and Causal Masking</h3>
-        <p>In a causal decoder, attention uses a lower-triangular mask so a token position cannot access future tokens during generation:</p>
+        <h3>Causal Masking and Prefill vs Generation</h3>
+        <p>In a causal decoder, attention uses a mask so that a token position cannot access future token positions during ordinary autoregressive prediction:</p>
         <div class="code-block">Position:        1    2    3    4
 Can attend to:
 1                ✓    ·    ·    ·
 2                ✓    ✓    ·    ·
 3                ✓    ✓    ✓    ·
 4                ✓    ✓    ✓    ✓</div>
+        <p><strong>Prefill Phase:</strong> Evaluates prompt tokens in parallel.<br><strong>Generation Phase:</strong> Strictly sequential token emission step by step.</p>
       </article>
     </section>
 
@@ -848,19 +962,24 @@ Can attend to:
     <section id="ch3" class="chapter-view">
       <div class="hero-grid">
         <div>
-          <span class="chapter-eyebrow">— Chapter 03 · Approximately 15 minutes</span>
+          <span class="eyebrow">Chapter 03 · ~15 mins reading</span>
           <h1 class="hero-heading">Chat models, human feedback, and tools.</h1>
-          <p class="hero-lead">A base model completes text; a chat assistant is trained and packaged to participate in structured conversation, follow instructions, and cooperate with tools.</p>
+          <p class="hero-lead">A base language model completes text. A chat assistant is trained and packaged to participate in structured conversation, follow instructions, and cooperate with tools.</p>
           <div class="hero-actions">
-            <a href="#read-ch3" class="btn-primary">Start reading ↓</a>
+            <a href="#read-ch3" class="btn-action">Explore Deep Notes ↓</a>
             <span class="tagline-pills">SFT · RLHF · Roles · ChatML · Tool Calls</span>
           </div>
         </div>
 
-        <div class="editorial-card">
-          <span class="card-label">Structured Dialogue</span>
-          <div class="quote-box">&lt;|im_start|&gt;system<br>You are a study assistant.<br>&lt;|im_end|&gt;</div>
-          <p style="font-size:0.82rem; color:var(--text-muted);">Roles separate instructions, user queries, assistant replies, and tool results.</p>
+        <div class="glass-preview-card">
+          <span class="card-label">⚡ Multi-Turn Hierarchy</span>
+          <div class="code-block" style="margin:0;">&lt;|im_start|&gt;system
+You are a concise study assistant.
+&lt;|im_end|&gt;
+&lt;|im_start|&gt;user
+Explain RAM vs storage.
+&lt;|im_end|&gt;</div>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-top:1rem;">Roles define boundaries and authority.</p>
         </div>
       </div>
 
@@ -871,68 +990,64 @@ Can attend to:
         <div class="interactive-panel">
           <div class="panel-header">
             <h4>🚆 Interactive Tool-Execution Stepper</h4>
-            <span class="interactive-badge">API Simulation</span>
+            <span class="interactive-badge">Tool Simulation</span>
           </div>
-          <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:1rem;">Step through how the application intercepts model requests and runs timetable APIs:</p>
+          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;">Step through how the application intercepts model requests and runs external timetable APIs:</p>
           <div class="tab-pills">
             <button class="pill-btn active" onclick="stepToolFlow(1)">1. User Request</button>
             <button class="pill-btn" onclick="stepToolFlow(2)">2. Model Tool Proposal</button>
             <button class="pill-btn" onclick="stepToolFlow(3)">3. App API Execution</button>
-            <button class="pill-btn" onclick="stepToolFlow(4)">4. Tool Result Context</button>
-            <button class="pill-btn" onclick="stepToolFlow(5)">5. Final Grounded Reply</button>
+            <button class="pill-btn" onclick="stepToolFlow(4)">4. Tool Result Injection</button>
+            <button class="pill-btn" onclick="stepToolFlow(5)">5. Grounded Final Reply</button>
           </div>
-          <div class="output-screen" id="toolStepOutput" style="white-space:pre-wrap;">
+          <div class="output-screen" id="toolStepOutput">
 [User Turn]: "When is the next train to Warsaw Central?"
-Status: Sent to application endpoint.
+Status: Dispatched to application orchestrator.
           </div>
         </div>
 
-        <h3>The Training Pipeline: SFT → Preference → RLHF</h3>
-        <p>Base language models are conditioned on raw corpora. Aligned chat models go through four distinct stages:</p>
+        <h3>The Training Pipeline: SFT → Feedback → RLHF</h3>
         <ul>
-          <li><strong>Supervised Fine-Tuning (SFT):</strong> Curated human demonstrations show what high-quality assistant replies look like.</li>
-          <li><strong>Human Preference Comparisons:</strong> Humans rank candidate responses (Candidate A vs B vs C).</li>
-          <li><strong>Reward Modeling:</strong> A neural reward model is trained to predict which responses humans score highest.</li>
-          <li><strong>Reinforcement Learning (PPO):</strong> The policy is optimized against the reward model.</li>
+          <li><strong>Supervised Fine-Tuning (SFT):</strong> Human demonstrations show what good assistant replies look like.</li>
+          <li><strong>Human Preference Comparisons:</strong> Evaluators rank multiple candidate responses.</li>
+          <li><strong>Reward Modeling:</strong> A neural reward model learns to predict human preference scores.</li>
+          <li><strong>Reinforcement Learning (PPO):</strong> Optimizes policy behavior against the reward signal while mitigating reward hacking.</li>
         </ul>
 
-        <h3>Chat Parameters Behind the Response</h3>
-        <table class="content-table">
-          <thead>
-            <tr>
-              <th>Parameter</th>
-              <th>What it controls</th>
-              <th>Why it matters</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>max_tokens</code></td>
-              <td>Output-length budget</td>
-              <td>Prevents runaway generation and caps API expense.</td>
-            </tr>
-            <tr>
-              <td><code>temperature</code></td>
-              <td>Sampling randomness</td>
-              <td>Balances variation with strict predictability.</td>
-            </tr>
-            <tr>
-              <td><code>stop</code></td>
-              <td>Stop sequences</td>
-              <td>Stops generation at specified delimiters.</td>
-            </tr>
-            <tr>
-              <td><code>stream</code></td>
-              <td>Incremental token delivery</td>
-              <td>Reduces perceived latency by showing text in real time.</td>
-            </tr>
-            <tr>
-              <td><code>logprobs</code></td>
-              <td>Token log-probabilities</td>
-              <td>Enables token-level inspection and debugging.</td>
-            </tr>
-          </tbody>
-        </table>
+        <h3>Chat API Parameters</h3>
+        <div class="content-table-wrapper">
+          <table class="content-table">
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>What it controls</th>
+                <th>Why it matters</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>max_tokens</code></td>
+                <td>Output-length budget</td>
+                <td>Prevents runaway generation and caps latency/expense.</td>
+              </tr>
+              <tr>
+                <td><code>temperature</code></td>
+                <td>Sampling randomness</td>
+                <td>Balances predictability with lexical variety.</td>
+              </tr>
+              <tr>
+                <td><code>stop</code></td>
+                <td>Stop sequences</td>
+                <td>Useful for bounded text structures and JSON schemas.</td>
+              </tr>
+              <tr>
+                <td><code>stream</code></td>
+                <td>Incremental delivery</td>
+                <td>Reduces time-to-first-token perception.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </article>
     </section>
 
@@ -940,38 +1055,38 @@ Status: Sent to application endpoint.
     <section id="ch4" class="chapter-view">
       <div class="hero-grid">
         <div>
-          <span class="chapter-eyebrow">— Chapter 04 · Approximately 17 minutes</span>
+          <span class="eyebrow">Chapter 04 · ~17 mins reading</span>
           <h1 class="hero-heading">Designing applications with language models.</h1>
           <p class="hero-lead">The model produces text; the application turns a real-world problem into the right model input and turns the output into a useful result.</p>
           <div class="hero-actions">
-            <a href="#read-ch4" class="btn-primary">Start reading ↓</a>
-            <span class="tagline-pills">Application Loops · Context · Tools · ReAct · Evaluation</span>
+            <a href="#read-ch4" class="btn-action">Explore Deep Notes ↓</a>
+            <span class="tagline-pills">Application Loops · Context · Feedforward · ReAct</span>
           </div>
         </div>
 
-        <div class="editorial-card">
-          <span class="card-label">Application Complexity</span>
-          <div class="quote-box">Proofreading vs IT Support vs Travel Planning</div>
-          <p style="font-size:0.82rem; color:var(--text-muted);">As state and abstraction rise, feedforward context assembly becomes the dominant engineering challenge.</p>
+        <div class="glass-preview-card">
+          <span class="card-label">⚡ Feedforward Pipeline</span>
+          <div class="card-quote-box">Retrieval ➔ Snippetize ➔ Prioritize ➔ Assemble</div>
+          <p style="font-size:0.88rem; color:var(--text-muted);">Transforming real-world user intent into a bounded, high-signal prompt.</p>
         </div>
       </div>
 
       <article id="read-ch4" class="reading-content">
         <h2>Field Notes: 04 · Application Loops, Context, and Evaluation</h2>
 
-        <!-- INTERACTIVE COMPLEXITY MATRIX -->
+        <!-- INTERACTIVE COMPLEXITY ARCHETYPE MATRIX -->
         <div class="interactive-panel">
           <div class="panel-header">
             <h4>📐 Application Complexity Inspector</h4>
-            <span class="interactive-badge">System Architecture</span>
+            <span class="interactive-badge">System Design</span>
           </div>
-          <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:1rem;">Select an application archetype to inspect its context, medium, abstraction, and state demands:</p>
+          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;">Select an application archetype to inspect its context, medium, abstraction, and state demands:</p>
           <div class="tab-pills">
             <button class="pill-btn active" onclick="inspectAppComplexity('proof')">Text Proofreading</button>
             <button class="pill-btn" onclick="inspectAppComplexity('it')">IT Support</button>
             <button class="pill-btn" onclick="inspectAppComplexity('travel')">Travel Planning</button>
           </div>
-          <div class="output-screen" id="appComplexityScreen" style="white-space:pre-wrap;">
+          <div class="output-screen" id="appComplexityScreen">
 Archetype: Text Proofreading
 - Medium: Typed text
 - Abstraction: One bounded task
@@ -983,44 +1098,46 @@ Archetype: Text Proofreading
 
         <h3>The Four Requirements of an Effective Prompt</h3>
         <ol>
-          <li><strong>A familiar format:</strong> Structure like a recognizable document or dialogue (The <em>Little Red Riding Hood</em> principle).</li>
+          <li><strong>A familiar format:</strong> Structure like a recognizable document or dialogue (The <em>Little Red Riding Hood principle</em>).</li>
           <li><strong>Enough relevant information:</strong> Supply what is necessary; omit clutter.</li>
           <li><strong>A clear direction:</strong> Tell the model what to accomplish and how to begin.</li>
           <li><strong>A controlled stopping point:</strong> Define the output boundary explicitly.</li>
         </ol>
 
         <h3>Feedforward Pipeline: 4 Stages</h3>
-        <table class="content-table">
-          <thead>
-            <tr>
-              <th>Stage</th>
-              <th>What happens?</th>
-              <th>Example</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>1. Context retrieval</strong></td>
-              <td>Collect useful information.</td>
-              <td>Read the relevant support article.</td>
-            </tr>
-            <tr>
-              <td><strong>2. Snippetization</strong></td>
-              <td>Split long material into manageable excerpts.</td>
-              <td>Extract the paragraph about fan noise.</td>
-            </tr>
-            <tr>
-              <td><strong>3. Prioritization</strong></td>
-              <td>Rank pieces by usefulness and relevance.</td>
-              <td>Device-specific instructions before generic tips.</td>
-            </tr>
-            <tr>
-              <td><strong>4. Prompt assembly</strong></td>
-              <td>Combine task, constraints, and context.</td>
-              <td>Build the final structured troubleshooting request.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="content-table-wrapper">
+          <table class="content-table">
+            <thead>
+              <tr>
+                <th>Stage</th>
+                <th>What happens?</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Context retrieval</strong></td>
+                <td>Collect useful information.</td>
+                <td>Read the relevant support article.</td>
+              </tr>
+              <tr>
+                <td><strong>2. Snippetization</strong></td>
+                <td>Split long material into manageable excerpts.</td>
+                <td>Extract the paragraph about fan noise.</td>
+              </tr>
+              <tr>
+                <td><strong>3. Prioritization</strong></td>
+                <td>Rank pieces by usefulness and relevance.</td>
+                <td>Device-specific instructions before generic tips.</td>
+              </tr>
+              <tr>
+                <td><strong>4. Prompt assembly</strong></td>
+                <td>Combine task, constraints, and context.</td>
+                <td>Build the final troubleshooting request.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </article>
     </section>
 
@@ -1028,19 +1145,19 @@ Archetype: Text Proofreading
     <section id="ch5" class="chapter-view">
       <div class="hero-grid">
         <div>
-          <span class="chapter-eyebrow">— Chapter 05 · Approximately 22 minutes</span>
+          <span class="eyebrow">Chapter 05 · ~22 mins reading</span>
           <h1 class="hero-heading">Prompt content, context, and RAG.</h1>
           <p class="hero-lead">The quality of an LLM response depends on which information enters the prompt. The engineering challenge is to find, prioritize, and present the most useful context.</p>
           <div class="hero-actions">
-            <a href="#read-ch5" class="btn-primary">Start reading ↓</a>
-            <span class="tagline-pills">Static vs Dynamic · Jaccard · Embeddings · Snippetizing · Pipelines</span>
+            <a href="#read-ch5" class="btn-action">Explore Deep Notes ↓</a>
+            <span class="tagline-pills">Static vs Dynamic · Jaccard · Embeddings · Snippetizing · RAG</span>
           </div>
         </div>
 
-        <div class="editorial-card">
-          <span class="card-label">RAG Golden Rule</span>
-          <div class="quote-box">Chekhov's Gun in Prompting</div>
-          <p style="font-size:0.82rem; color:var(--text-muted);">If the prompt introduces an irrelevant detail, the model will treat it as important and force it into the answer. Better retrieval beats longer prompts.</p>
+        <div class="glass-preview-card">
+          <span class="card-label">⚡ Chekhov's Gun in RAG</span>
+          <div class="card-quote-box">“Better retrieval beats adding more retrieved text.”</div>
+          <p style="font-size:0.88rem; color:var(--text-muted);">Irrelevant snippets force models to integrate hallucinations into the answer.</p>
         </div>
       </div>
 
@@ -1053,82 +1170,72 @@ Archetype: Text Proofreading
             <h4>🧮 Interactive Jaccard Lexical Similarity Calculator</h4>
             <span class="interactive-badge">Formula: J(A,B) = |A ∩ B| / |A ∪ B|</span>
           </div>
-          <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:1rem;">Edit terms below to compute exact set overlap between Query and Document:</p>
+          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;">Edit terms below to compute exact set overlap between Query and Document:</p>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
             <div>
-              <label style="font-size:0.82rem; font-weight:700; color:var(--forest-dark);">Query Terms (space separated):</label>
-              <input type="text" id="jaccardQ" value="space travel novel" style="width:100%; padding:0.6rem; border:1px solid var(--border-subtle); border-radius:6px; font-family:'JetBrains Mono', monospace;" oninput="calcJaccard()">
+              <label style="font-size:0.84rem; font-weight:700; color:#fff;">Query Terms (space separated):</label>
+              <input type="text" id="jaccardQ" value="space travel novel" style="width:100%; padding:0.75rem; background:var(--code-bg); color:#fff; border:1px solid var(--border-card); border-radius:8px; font-family:'JetBrains Mono', monospace;" oninput="calcJaccard()">
             </div>
             <div>
-              <label style="font-size:0.82rem; font-weight:700; color:var(--forest-dark);">Document Terms (space separated):</label>
-              <input type="text" id="jaccardD" value="space travel novel science" style="width:100%; padding:0.6rem; border:1px solid var(--border-subtle); border-radius:6px; font-family:'JetBrains Mono', monospace;" oninput="calcJaccard()">
+              <label style="font-size:0.84rem; font-weight:700; color:#fff;">Document Terms (space separated):</label>
+              <input type="text" id="jaccardD" value="space travel novel science" style="width:100%; padding:0.75rem; background:var(--code-bg); color:#fff; border:1px solid var(--border-card); border-radius:8px; font-family:'JetBrains Mono', monospace;" oninput="calcJaccard()">
             </div>
           </div>
-          <div class="output-screen" id="jaccardOutput">
-Intersection (|A ∩ B|): {novel, space, travel} (Size: 3)
-Union (|A ∪ B|)       : {novel, science, space, travel} (Size: 4)
-Jaccard Similarity    : 3 / 4 = 0.750
-Evaluation            : High lexical term overlap.
-          </div>
+          <div class="output-screen" id="jaccardOutput">Calculating Jaccard...</div>
         </div>
 
         <!-- INTERACTIVE SLIDING WINDOW CHUNKER -->
         <div class="interactive-panel">
           <div class="panel-header">
-            <h4>✂️ Sliding Window & Stride Snippetizer</h4>
+            <h4>✂️ Sliding Window & Overlap Chunker</h4>
             <span class="interactive-badge">Chunking Simulator</span>
           </div>
-          <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:1rem;">Adjust window size and stride to see how overlap prevents split concept loss:</p>
+          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;">Adjust window size and stride to see how overlap prevents split concept loss:</p>
           <div class="control-row">
             <div class="control-label">
-              <span>Window Size (words): <strong id="winSizeVal">200</strong></span>
-              <span>Stride (words): <strong id="strideVal">120</strong></span>
-              <span>Overlap: <strong id="overlapVal" style="color:var(--accent-gold);">80 words</strong></span>
+              <span>Window Size (words): <strong id="winSizeVal" style="color:var(--accent-emerald);">200</strong></span>
+              <span>Stride: <strong id="strideVal" style="color:var(--accent-cyan);">120</strong></span>
+              <span>Overlap: <strong id="overlapVal" style="color:var(--accent-amber);">80 words</strong></span>
             </div>
             <input type="range" min="50" max="300" value="200" class="slider-input" id="sliderWin" oninput="updateChunkingSlider()">
           </div>
-          <div class="output-screen" id="chunkerOutput">
-Chunking Calculation:
-- Document Length: 1,000 words
-- Chunk 1: Words 0 to 200
-- Chunk 2: Words 120 to 320 [Overlap: 80 words with Chunk 1]
-- Chunk 3: Words 240 to 440 [Overlap: 80 words with Chunk 2]
-- Total Chunks Produced: 8 searchable snippets.
-          </div>
+          <div class="output-screen" id="chunkerOutput">Calculating chunks...</div>
         </div>
 
         <h3>Lexical vs. Neural Retrieval Comparison</h3>
-        <table class="content-table">
-          <thead>
-            <tr>
-              <th>Question</th>
-              <th>Lexical search (BM25 / Jaccard)</th>
-              <th>Neural search (Embeddings)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Matches exact terms & codes?</td>
-              <td>Very naturally</td>
-              <td>Not always reliably</td>
-            </tr>
-            <tr>
-              <td>Finds conceptual paraphrases?</td>
-              <td>Limited</td>
-              <td>Often very strong</td>
-            </tr>
-            <tr>
-              <td>Easy to explain a match?</td>
-              <td>Usually straightforward</td>
-              <td>Less straightforward</td>
-            </tr>
-            <tr>
-              <td>Requires vector database?</td>
-              <td>No</td>
-              <td>Yes</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="content-table-wrapper">
+          <table class="content-table">
+            <thead>
+              <tr>
+                <th>Question</th>
+                <th>Lexical search (BM25 / Jaccard)</th>
+                <th>Neural search (Embeddings)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Matches exact terms & codes?</td>
+                <td>Very naturally</td>
+                <td>Not always reliably</td>
+              </tr>
+              <tr>
+                <td>Finds conceptual paraphrases?</td>
+                <td>Limited</td>
+                <td>Often very strong</td>
+              </tr>
+              <tr>
+                <td>Easy to explain a match?</td>
+                <td>Usually straightforward</td>
+                <td>Less straightforward</td>
+              </tr>
+              <tr>
+                <td>Requires vector database?</td>
+                <td>No</td>
+                <td>Yes</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </article>
     </section>
 
@@ -1136,32 +1243,32 @@ Chunking Calculation:
     <section id="ch6" class="chapter-view">
       <div class="hero-grid">
         <div>
-          <span class="chapter-eyebrow">— Chapter 06 · Approximately 30 minutes</span>
+          <span class="eyebrow">Chapter 06 · ~30 mins reading</span>
           <h1 class="hero-heading">Prompt engineering laboratory.</h1>
           <p class="hero-lead">Stop treating prompts as magic phrases. Treat them as experimental designs: make a prediction, test alternatives, inspect output, and document changes.</p>
           <div class="hero-actions">
-            <a href="#read-ch6" class="btn-primary">Start reading ↓</a>
+            <a href="#read-ch6" class="btn-action">Explore Deep Notes ↓</a>
             <span class="tagline-pills">4 Labs · 24 Model Runs · Tree of Thought · ReAct · Quiz</span>
           </div>
         </div>
 
-        <div class="editorial-card">
-          <span class="card-label">Workbook Deliverables</span>
-          <div class="quote-box">24 Experimental Runs &amp; Rubrics</div>
-          <p style="font-size:0.82rem; color:var(--text-muted);">Lab 1 fallacy benchmarking, Lab 2 chaining, Lab 3 tree-of-thought mobility strategy, and Lab 4 medical diagnostics.</p>
+        <div class="glass-preview-card">
+          <span class="card-label">⚡ Empirical Workstation</span>
+          <div class="card-quote-box">“Measure, Iterate, Validate.”</div>
+          <p style="font-size:0.88rem; color:var(--text-muted);">Lab 1 fallacy benchmarking, Lab 2 chaining, Lab 3 tree-of-thought, Lab 4 medical diagnostics.</p>
         </div>
       </div>
 
       <article id="read-ch6" class="reading-content">
         <h2>Field Notes: 06 · Laboratory Workbook & Experiments</h2>
 
-        <!-- INTERACTIVE LAB 1 FALLACY CLASSIFIER -->
+        <!-- INTERACTIVE LAB 1 FALLACY HARNESS -->
         <div class="interactive-panel">
           <div class="panel-header">
             <h4>🧪 Lab 1: Interactive Fallacy Classifier (24 Runs Harness)</h4>
             <span class="interactive-badge">Live Lab Bench</span>
           </div>
-          <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:1rem;">Select one of the 8 assigned argument cases and pick a strategy to run the live test:</p>
+          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;">Select one of the 8 assigned argument cases and pick a strategy to run the live test:</p>
           <div class="tab-pills" id="casePills">
             <button class="pill-btn active" onclick="loadCase('A')">Case A (Logo)</button>
             <button class="pill-btn" onclick="loadCase('B')">Case B (Actor)</button>
@@ -1173,9 +1280,9 @@ Chunking Calculation:
             <button class="pill-btn" onclick="loadCase('H')">Case H (Exercise)</button>
           </div>
 
-          <div style="background:#fff; border:1px solid var(--border-subtle); padding:1rem; border-radius:8px; margin-bottom:1rem;">
-            <span style="font-size:0.75rem; font-weight:800; color:var(--forest-dark); text-transform:uppercase;">Argument Under Test:</span>
-            <p id="caseQuoteDisplay" style="margin:0.4rem 0 0 0; font-family:'Newsreader', serif; font-size:1.15rem; color:var(--forest-dark);">
+          <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-card); padding:1.2rem; border-radius:12px; margin-bottom:1.2rem;">
+            <span style="font-size:0.75rem; font-weight:800; color:var(--accent-emerald); text-transform:uppercase;">Argument Under Test:</span>
+            <p id="caseQuoteDisplay" style="margin:0.5rem 0 0 0; font-family:'Space Grotesk', sans-serif; font-size:1.15rem; color:#fff;">
               “Sales started falling after we introduced a new logo. This proves that the logo change discouraged customers.”
             </p>
           </div>
@@ -1183,19 +1290,14 @@ Chunking Calculation:
           <div class="tab-pills">
             <button class="pill-btn active" id="btnStratA" onclick="setStrategy('zero')">Strategy A: Zero-shot</button>
             <button class="pill-btn" id="btnStratB" onclick="setStrategy('few')">Strategy B: Few-shot</button>
-            <button class="pill-btn" id="btnStratC" onclick="setStrategy('struct')">Strategy C: Few-shot + Structured Justification</button>
+            <button class="pill-btn" id="btnStratC" onclick="setStrategy('struct')">Strategy C: Few-shot + Structured</button>
           </div>
 
-          <div class="output-screen" id="lab1RunOutput" style="white-space:pre-wrap;">
-[Execution - Strategy A: Zero-shot]
-Label: false cause
-Justification: The argument assumes that because one event followed another in time, the first caused the second without corroborating sales evidence.
-Confidence: High
-          </div>
+          <div class="output-screen" id="lab1RunOutput">Executing run...</div>
 
-          <button class="btn-primary" style="margin-top:1rem;" onclick="revealGroundTruth()">Reveal Ground Truth & Evaluation Rubric</button>
-          <div id="groundTruthBox" style="display:none; margin-top:1rem; padding:1rem; background:var(--forest-subtle); border-radius:8px; font-size:0.9rem; color:var(--forest-dark);">
-            <strong>Intended Reference Category:</strong> <span id="refCatText">False cause</span><br>
+          <button class="btn-action" style="margin-top:1.2rem;" onclick="revealGroundTruth()">Reveal Instructor Ground Truth & Evaluation Rubric</button>
+          <div id="groundTruthBox" style="display:none; margin-top:1.2rem; padding:1.2rem; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); border-radius:12px; font-size:0.95rem; color:#fff;">
+            <strong>Intended Reference Category:</strong> <span id="refCatText" style="color:var(--accent-emerald);">False cause</span><br>
             <strong>Core Issue:</strong> <span id="refIssueText">Temporal sequence alone does not establish causation.</span><br>
             <strong>Rubric Score:</strong> 2/2 Points (Classification matches reference; identifies chronological reasoning gap).
           </div>
@@ -1207,46 +1309,48 @@ Confidence: High
             <h4>🌳 Lab 3: Tree-of-Thought Traffic Strategy Evaluator</h4>
             <span class="interactive-badge">Multi-Criteria Decision Matrix</span>
           </div>
-          <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:1rem;">Adjust your municipality priority weights to find the optimal 10-year congestion strategy for a 150,000-inhabitant city:</p>
+          <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;">Adjust your municipality priority weights to find the optimal 10-year congestion strategy for a 150,000-inhabitant city:</p>
           <div class="control-row">
             <div class="control-label">
-              <span>Budget Sensitivity Weight (Low Cost Priority): <strong id="wCostVal">50%</strong></span>
-              <span>Speed of Deployment Priority: <strong id="wSpeedVal">50%</strong></span>
+              <span>Budget Sensitivity Weight (Low Cost Priority): <strong id="wCostVal" style="color:var(--accent-emerald);">50%</strong></span>
+              <span>Speed of Deployment Priority: <strong id="wSpeedVal" style="color:var(--accent-cyan);">50%</strong></span>
             </div>
             <input type="range" min="0" max="100" value="50" class="slider-input" id="sliderWeightToT" oninput="updateToTMatrix(this.value)">
           </div>
 
-          <table class="content-table" style="margin:1rem 0;">
-            <thead>
-              <tr>
-                <th>Candidate Branch</th>
-                <th>Capex Cost</th>
-                <th>Deployment Speed</th>
-                <th>Calculated Viability Score</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr id="rowBranchA">
-                <td><strong>Branch A: Public Transit Expansion</strong> (Tram lines, dedicated bus corridors)</td>
-                <td>High ($$$)</td>
-                <td>Slow (5–7 yrs)</td>
-                <td id="scoreA">54 / 100</td>
-              </tr>
-              <tr id="rowBranchB">
-                <td><strong>Branch B: Traffic Management</strong> (Adaptive AI signals, reversible lanes)</td>
-                <td>Low ($)</td>
-                <td>Fast (1–2 yrs)</td>
-                <td id="scoreB">78 / 100</td>
-              </tr>
-              <tr id="rowBranchC">
-                <td><strong>Branch C: Demand Reduction & Charges</strong> (Congestion pricing, remote work tax perks)</td>
-                <td>Medium ($$)</td>
-                <td>Moderate (2–4 yrs)</td>
-                <td id="scoreC">66 / 100</td>
-              </tr>
-            </tbody>
-          </table>
-          <p id="totRecommendation" style="font-size:0.9rem; font-weight:700; color:var(--forest-dark);">
+          <div class="content-table-wrapper">
+            <table class="content-table">
+              <thead>
+                <tr>
+                  <th>Candidate Branch</th>
+                  <th>Capex Cost</th>
+                  <th>Deployment Speed</th>
+                  <th>Calculated Viability Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Branch A: Public Transit Expansion</strong></td>
+                  <td>High ($$$)</td>
+                  <td>Slow (5–7 yrs)</td>
+                  <td id="scoreA" style="color:var(--accent-cyan); font-weight:700;">54 / 100</td>
+                </tr>
+                <tr>
+                  <td><strong>Branch B: Traffic Management</strong></td>
+                  <td>Low ($)</td>
+                  <td>Fast (1–2 yrs)</td>
+                  <td id="scoreB" style="color:var(--accent-emerald); font-weight:700;">78 / 100</td>
+                </tr>
+                <tr>
+                  <td><strong>Branch C: Demand Reduction & Charges</strong></td>
+                  <td>Medium ($$)</td>
+                  <td>Moderate (2–4 yrs)</td>
+                  <td id="scoreC" style="color:var(--accent-amber); font-weight:700;">66 / 100</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p id="totRecommendation" style="font-size:0.95rem; font-weight:700; color:var(--accent-emerald);">
             Optimal Recommendation: Combined Phase (Branch B immediate rollout during Years 1–2, funding Branch A long-term transit expansion by Year 10).
           </p>
         </div>
@@ -1304,8 +1408,16 @@ Confidence: High
   </main>
 
   <script>
-    /* 1. CHAPTER NAVIGATION CONTROLLER */
-    function switchChapter(chId, evt, badgeNum) {
+    /* PROGRESS BAR */
+    window.onscroll = function() {
+      let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      let scrolled = (winScroll / height) * 100;
+      document.getElementById("progressBar").style.width = scrolled + "%";
+    };
+
+    /* CHAPTER SWITCHER */
+    function switchChapter(chId, evt) {
       document.querySelectorAll('.chapter-view').forEach(v => v.classList.remove('active'));
       document.querySelectorAll('.chapter-tab').forEach(t => t.classList.remove('active'));
 
@@ -1313,14 +1425,10 @@ Confidence: High
       if (target) target.classList.add('active');
 
       if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
-
-      const badge = document.querySelector('.chapter-badge');
-      if (badge && badgeNum) badge.textContent = badgeNum;
-
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    /* 2. CH1 ATTENTION VISUALIZER */
+    /* CH1 ATTENTION VISUALIZER */
     function visualizeAttention(word) {
       document.querySelectorAll('#attentionWordPills .pill-btn').forEach(b => b.classList.remove('active'));
       if (event && event.currentTarget) event.currentTarget.classList.add('active');
@@ -1339,24 +1447,23 @@ Confidence: High
       }
     }
 
-    /* CH1 PROMPT COMPARISON */
     function comparePromptCh1(type) {
       const out = document.getElementById('promptCompareScreenCh1');
       if (type === 'vague') {
-        out.textContent = `Prompt: "Explain transformers."\n\nResult Evaluation:\n- Audience: Unspecified (risk of being either too childish or excessively mathematical)\n- Scope: Unbounded (model might write 2,000 words on unrelated neural history)\n- Format: Unstructured prose\n- Constraints: None\nLikely Failure: Plausible but unfocused output with unpredictable depth.`;
+        out.textContent = `Prompt: "Explain transformers."\n\nDeficiencies:\n- Audience: Unspecified (risk of being either too basic or overly mathematical)\n- Scope & Sequence: Unbounded\n- Format: Unconstrained prose\n- Constraints: None\nResult: Plausible but completely unpredictable completion.`;
       } else {
-        out.textContent = `Designed Prompt:\n"Explain the transformer architecture to first-year computer science students.\nBegin with the problem faced by seq2seq models, then introduce attention.\nUse one simple analogy, one comparison table, and no more than 300 words.\nDefine any technical term before using it."\n\nResult Evaluation:\n- Audience: First-year CS undergraduates\n- Scope: Seq2seq bottleneck -> Attention mechanism\n- Format: Analogy + Comparison Table + Markdown under 300 words\n- Constraints: Explicit word budget and mandatory term definitions before use.`;
+        out.textContent = `Designed Prompt:\n"Explain the transformer architecture to first-year computer science students.\nBegin with the problem faced by seq2seq models, then introduce attention.\nUse one simple analogy, one comparison table, and no more than 300 words.\nDefine any technical term before using it."\n\nResult:\n- Audience: First-year CS undergraduates\n- Scope: Seq2seq bottleneck -> Attention mechanism\n- Format: Analogy + Comparison Table + Markdown under 300 words\n- Constraints: Explicit word budget and mandatory term definitions before use.`;
       }
     }
 
-    /* 3. CH2 TEMPERATURE SOFTMAX SIMULATOR */
+    /* CH2 TEMPERATURE SOFTMAX */
     function runTemperatureSoftmax(val) {
       const temp = (val / 100).toFixed(2);
       document.getElementById('tempDisplayCh2').textContent = temp;
       const cat = document.getElementById('tempCategoryCh2');
       const out = document.getElementById('softmaxProbScreen');
 
-      const z = [3.5, 2.8, 2.0, 0.8]; // logits for [mat, sofa, floor, moon]
+      const z = [3.5, 2.8, 2.0, 0.8];
       const t = Math.max(0.01, parseFloat(temp));
       const expZ = z.map(logit => Math.exp(logit / t));
       const sumExp = expZ.reduce((a, b) => a + b, 0);
@@ -1366,20 +1473,21 @@ Confidence: High
 
       if (temp < 0.4) {
         cat.textContent = "Factual / Deterministic (0.0 - 0.3)";
-        cat.style.color = "var(--forest-dark)";
+        cat.style.color = "var(--accent-emerald)";
       } else if (temp < 0.9) {
         cat.textContent = "Balanced Dialogue (0.5 - 0.8)";
-        cat.style.color = "var(--accent-blue)";
+        cat.style.color = "var(--accent-cyan)";
       } else if (temp < 1.4) {
         cat.textContent = "Creative / Storytelling (0.9 - 1.3)";
-        cat.style.color = "var(--accent-gold)";
+        cat.style.color = "var(--accent-amber)";
       } else {
         cat.textContent = "Experimental / Chaotic (> 1.3)";
-        cat.style.color = "#dc2626";
+        cat.style.color = "#ef4444";
       }
 
       out.textContent = `p(mat)   : ${p[0].toFixed(1).padStart(4)}% [${bar(p[0])}]\np(sofa)  : ${p[1].toFixed(1).padStart(4)}% [${bar(p[1])}]\np(floor) : ${p[2].toFixed(1).padStart(4)}% [${bar(p[2])}]\np(moon)  : ${p[3].toFixed(1).padStart(4)}% [${bar(p[3])}]\n\nSoftmax Behavior at T=${temp}: ${temp < 0.4 ? 'Probability concentrates heavily on the top logit ("mat"). Output is predictable.' : temp < 1.0 ? 'Reasonable spread across top semantically coherent candidates.' : 'Probability distribution flattens drastically; unlikely tokens become easily sampled.'}`;
     }
+    runTemperatureSoftmax(20);
 
     /* CH2 TOKENIZER SIMULATION */
     function tokenizeLive(txt) {
@@ -1392,7 +1500,7 @@ Confidence: High
         const span = document.createElement('span');
         span.className = 'token-chip';
         span.textContent = w === ' ' ? '␣' : w;
-        if (w === ' ') span.style.color = '#9ca3af';
+        if (w === ' ') span.style.color = '#64748b';
         chipContainer.appendChild(span);
       });
 
@@ -1403,11 +1511,11 @@ Confidence: High
     }
     tokenizeLive("Yesterday, my TV stopped working. Now I can't turn it on at all.");
 
-    /* 4. CH3 TOOL CALL STEPPER */
+    /* CH3 TOOL CALL STEPPER */
     function stepToolFlow(step) {
       const out = document.getElementById('toolStepOutput');
       if (step === 1) {
-        out.textContent = `[Step 1: User Request]\nUser asks: "When is the next train to Warsaw Central?"\nStatus: Sent to application orchestrator.`;
+        out.textContent = `[Step 1: User Request]\nUser asks: "When is the next train to Warsaw Central?"\nStatus: Dispatched to application orchestrator.`;
       } else if (step === 2) {
         out.textContent = `[Step 2: Model Tool Request]\nModel recognizes missing runtime data and proposes tool call:\n{\n  "tool": "get_timetable",\n  "arguments": {"destination": "Warsaw Central", "time": "current"}\n}`;
       } else if (step === 3) {
@@ -1419,7 +1527,7 @@ Confidence: High
       }
     }
 
-    /* 5. CH4 COMPLEXITY INSPECTOR */
+    /* CH4 COMPLEXITY INSPECTOR */
     function inspectAppComplexity(type) {
       const out = document.getElementById('appComplexityScreen');
       if (type === 'proof') {
@@ -1431,7 +1539,7 @@ Confidence: High
       }
     }
 
-    /* 6. CH5 JACCARD CALCULATOR */
+    /* CH5 JACCARD CALCULATOR */
     function calcJaccard() {
       const qTokens = new Set(document.getElementById('jaccardQ').value.toLowerCase().split(/\s+/).filter(Boolean));
       const dTokens = new Set(document.getElementById('jaccardD').value.toLowerCase().split(/\s+/).filter(Boolean));
@@ -1444,6 +1552,7 @@ Confidence: High
 
       out.textContent = `Intersection (|A ∩ B|): {${[...intersect].join(', ')}} (Size: ${intersect.size})\nUnion (|A ∪ B|)       : {${[...union].join(', ')}} (Size: ${union.size})\nJaccard Similarity    : ${intersect.size} / ${union.size} = ${jScore.toFixed(3)}\nEvaluation            : ${jScore > 0.6 ? 'High term overlap.' : jScore > 0.3 ? 'Moderate term overlap.' : 'Low term overlap (consider semantic neural retrieval).'}`;
     }
+    calcJaccard();
 
     function updateChunkingSlider() {
       const w = parseInt(document.getElementById('sliderWin').value);
@@ -1459,49 +1568,18 @@ Confidence: High
 
       document.getElementById('chunkerOutput').textContent = `Chunking Calculation:\n- Document Length: 1,000 words\n- Chunk 1: Words 0 to ${w}\n- Chunk 2: Words ${stride} to ${stride + w} [Overlap: ${overlap} words with Chunk 1]\n- Chunk 3: Words ${stride * 2} to ${stride * 2 + w} [Overlap: ${overlap} words with Chunk 2]\n- Total Chunks Produced: ${chunks} searchable passages.`;
     }
+    updateChunkingSlider();
 
-    /* 7. CH6 LAB 1 BENCHMARK HARNESS */
+    /* CH6 LAB 1 BENCHMARK HARNESS */
     const cases = {
-      'A': {
-        text: '“Sales started falling after we introduced a new logo. This proves that the logo change discouraged customers.”',
-        ref: 'False cause',
-        issue: 'Temporal sequence alone does not establish causation.'
-      },
-      'B': {
-        text: '“This supplement must work because a famous actor said in an interview that it made them feel great.”',
-        ref: 'Appeal to authority',
-        issue: 'A celebrity endorsement is not verified medical evidence.'
-      },
-      'C': {
-        text: '“I met two rude waiters at this restaurant chain. Clearly, the entire company has terrible staff.”',
-        ref: 'Hasty generalization',
-        issue: 'Two isolated examples cannot justify a universal claim about all employees.'
-      },
-      'D': {
-        text: '“If we allow students to use phones in class, within a year nobody will pay attention and the education system will collapse.”',
-        ref: 'Slippery slope',
-        issue: 'A catastrophic chain of events is asserted without intermediate evidential support.'
-      },
-      'E': {
-        text: '“If we do not vote for this bill, our economy will collapse catastrophically and we will all lose our savings.”',
-        ref: 'Appeal to fear',
-        issue: 'A frightening outcome is substituted for evidence on the actual bill mechanics.'
-      },
-      'F': {
-        text: '“We should not listen to his tax-reform proposal because he changed jobs twice within one year.”',
-        ref: 'Ad hominem',
-        issue: 'Job tenure is used to dismiss a proposal rather than analyzing the tax policy.'
-      },
-      'G': {
-        text: '“Either you support a complete ban on internal-combustion cars, or you do not care about the environment at all.”',
-        ref: 'False dilemma',
-        issue: 'Excludes legitimate intermediate positions or hybrid policy solutions.'
-      },
-      'H': {
-        text: '“A study involving 10,000 people indicates that regular physical activity reduces heart disease. Therefore, it is worth encouraging older adults to exercise.”',
-        ref: 'No clear fallacy (intended)',
-        issue: 'Evidence is cited in support of a proportionate and justified recommendation.'
-      }
+      'A': { text: '“Sales started falling after we introduced a new logo. This proves that the logo change discouraged customers.”', ref: 'False cause', issue: 'Temporal sequence alone does not establish causation.' },
+      'B': { text: '“This supplement must work because a famous actor said in an interview that it made them feel great.”', ref: 'Appeal to authority', issue: 'A celebrity endorsement is not verified medical evidence.' },
+      'C': { text: '“I met two rude waiters at this restaurant chain. Clearly, the entire company has terrible staff.”', ref: 'Hasty generalization', issue: 'Two isolated examples cannot justify a universal claim about all employees.' },
+      'D': { text: '“If we allow students to use phones in class, within a year nobody will pay attention and the education system will collapse.”', ref: 'Slippery slope', issue: 'A catastrophic chain of events is asserted without intermediate evidential support.' },
+      'E': { text: '“If we do not vote for this bill, our economy will collapse catastrophically and we will all lose our savings.”', ref: 'Appeal to fear', issue: 'A frightening outcome is substituted for evidence on the actual bill mechanics.' },
+      'F': { text: '“We should not listen to his tax-reform proposal because he changed jobs twice within one year.”', ref: 'Ad hominem', issue: 'Job tenure is used to dismiss a proposal rather than analyzing the tax policy.' },
+      'G': { text: '“Either you support a complete ban on internal-combustion cars, or you do not care about the environment at all.”', ref: 'False dilemma', issue: 'Excludes legitimate intermediate positions or hybrid policy solutions.' },
+      'H': { text: '“A study involving 10,000 people indicates that regular physical activity reduces heart disease. Therefore, it is worth encouraging older adults to exercise.”', ref: 'No clear fallacy (intended)', issue: 'Evidence is cited in support of a proportionate and justified recommendation.' }
     };
 
     let activeCase = 'A';
@@ -1537,6 +1615,7 @@ Confidence: High
         out.textContent = `[Execution - Strategy C: Few-shot + Structured Justification]\nMain Claim: The proposed conclusion in Case ${activeCase}.\nEvidence Offered: The premise stated by the speaker.\nMissing Inferential Step: ${c.issue}\nFallacy Label: ${c.ref.toLowerCase()}\nConclusion: High analytical rigor with verified intermediate scratchpad.`;
       }
     }
+    renderLabRun();
 
     function revealGroundTruth() {
       const box = document.getElementById('groundTruthBox');
@@ -1561,6 +1640,7 @@ Confidence: High
       document.getElementById('scoreB').textContent = scoreB + " / 100";
       document.getElementById('scoreC').textContent = scoreC + " / 100";
     }
+    updateToTMatrix(50);
 
     /* FINAL QUIZ EVALUATOR */
     let qDone = { 1: false, 2: false, 3: false, 4: false };
